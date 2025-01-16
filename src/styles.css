@@ -141,10 +141,12 @@ body {
     }
 
     & #editor-options {
+        display: flex;
         z-index: 50;
 
         & #code-md {
             display: flex;
+            flex-direction: row;
             position: absolute;
             left: 0;
             bottom: 0;
@@ -165,6 +167,21 @@ body {
             }
 
             & .active {
+                opacity: 100%;
+            }
+        }
+
+        & #download-button {
+            position: absolute;
+            cursor: pointer;
+            bottom: 0;
+            right: 0;
+            background: none;
+            border: none;
+            opacity: 50%;
+            transition: opacity 500ms ease-in-out;
+
+            &:hover {
                 opacity: 100%;
             }
         }
