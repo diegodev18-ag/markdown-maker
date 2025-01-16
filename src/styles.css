@@ -26,6 +26,10 @@ body {
             border-radius: 15px;
             padding: 0 35px 0 10px;
             font-weight: 600;
+            
+            &:focus {
+                outline: none;
+            }
         }
         & button {
             top: 10;
@@ -35,6 +39,12 @@ body {
             position: absolute;
             background: none;
             border: none;
+            transition: opacity 300ms ease-in-out;
+            opacity: 60%;
+
+            &:hover {
+                opacity: 100%;
+            }
         }
     }
     
