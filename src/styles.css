@@ -70,7 +70,7 @@ body {
         margin-top: 20px;
         overflow-y: scroll;
         scrollbar-width: none;
-        height: calc(100vh - 125px);
+        height: calc(100vh - 130px);
         inset: 0;
 
         & #files {
