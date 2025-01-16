@@ -1,6 +1,7 @@
 body {
     margin: 0;
     padding: 0;
+    height: 100vh;
 }
 
 #container {
@@ -11,8 +12,8 @@ body {
 
 #var {
     background-color: #202020;
-    padding: 20px 25px;
-    height: 94.4vh;
+    height: calc(100vh - 20px);
+    padding: 10px 15px;
 
     & form {
         position: relative;
@@ -65,8 +66,9 @@ body {
     & #files-container {
         margin-top: 20px;
         overflow-y: scroll;
+        scrollbar-width: none;
+        height: calc(100vh - 125px);
         inset: 0;
-        height: 86%;
 
         & #files {
             display: flex;
