@@ -113,6 +113,33 @@ body {
     background-color: #2B2B2B;
     position: relative;
 
+    & #markdown-editor {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2px;
+
+        & textarea {
+            color: white;
+            background-color: rgb(25, 26, 25);
+            border: none;
+            resize: none;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        & #preview {
+            grid-area: span 2;
+        }
+    }
+
+    & #code-editor {
+        display: none;
+    }
+
     & #editor-options {
         z-index: 50;
 
