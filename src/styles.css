@@ -98,4 +98,29 @@ body {
 
 #content {
     background-color: #2B2B2B;
+    position: relative;
+
+    & #editor-options {
+        & #code-md {
+            display: flex;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            gap: 0;
+
+            & button {
+                cursor: pointer;
+                border: none;
+                background-color: #2B2B2B;
+                padding: 5px 10px;
+                border-radius: 10px;
+                transition: opacity 200ms ease-in-out;
+                opacity: 50%;
+            }
+
+            & .active {
+                opacity: 100%;
+            }
+        }
+    }
 }
