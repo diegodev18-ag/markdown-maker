@@ -121,7 +121,7 @@ body {
     }
 
     & #code-editor {
-        display: none;
+        display: grid;
 
         & textarea {
             color: white;
@@ -140,7 +140,7 @@ body {
     }
 
     & #markdown-editor {
-        display: grid;
+        display: none;
 
         & textarea {
             color: white;
