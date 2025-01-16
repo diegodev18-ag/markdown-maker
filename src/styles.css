@@ -12,24 +12,27 @@ body {
 
 #var {
     background-color: #202020;
-    height: calc(100vh - 20px);
-    padding: 10px 15px;
+    height: calc(100vh - 40px);
+    padding: 20px 15px;
 
     & form {
         position: relative;
+        width: calc(100% - 30px);
+        
         & input {
             width: 94%;
-            height: 30px;
+            height: 35px;
             border: none;
             border-radius: 15px;
-            padding: 0 10px;
+            padding: 0 35px 0 10px;
             font-weight: 600;
         }
         & button {
+            top: 10;
+            bottom: 0;
+            right: -28px;
             cursor: pointer;
             position: absolute;
-            top: 0;
-            right: 0;
             background: none;
             border: none;
         }
