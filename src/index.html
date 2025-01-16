@@ -4,13 +4,41 @@
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="styles.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tauri App</title>
+    <title>Markdown Maker</title>
     <script type="module" src="/main.js" defer></script>
   </head>
 
   <body>
-    <main class="container">
-      
+    <main id="container">
+      <section id="var">
+        <form action="">
+          <input type="text" id="search" />
+          <button type="submit">
+            <img src="/assets/search.svg" alt="">
+          </button>
+        </form>
+        <div id="options">
+          <button>
+            <img src="/assets/file.svg" alt="">
+          </button>
+          <button>
+            <img src="/assets/folder.svg" alt="">
+          </button>
+          <button>
+            <img src="/assets/order.svg" alt="">
+          </button>
+        </div>
+        <div id="files-container">
+          <div id="files">
+            <button class="file-name">
+              001-readme.md
+            </button>
+          </div>
+        </div>
+      </section>
+      <section id="content">
+        
+      </section>
     </main>
   </body>
 </html>
