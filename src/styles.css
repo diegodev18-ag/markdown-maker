@@ -114,6 +114,8 @@ body {
     position: relative;
 
     & #editor-options {
+        z-index: 50;
+
         & #code-md {
             display: flex;
             position: absolute;
