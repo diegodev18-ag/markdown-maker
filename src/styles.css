@@ -15,7 +15,7 @@ body {
     height: calc(100vh - 40px);
     padding: 20px 15px;
 
-    & form {
+    & #search-container {
         position: relative;
         width: calc(100% - 30px);
         
