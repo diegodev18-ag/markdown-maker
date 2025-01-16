@@ -114,11 +114,15 @@ body {
             & button {
                 cursor: pointer;
                 border: none;
-                background-color: #2B2B2B;
+                background: none;
                 padding: 5px 10px;
                 border-radius: 10px;
-                transition: opacity 200ms ease-in-out;
+                transition: opacity 200ms ease-in-out, scale 300ms ease-in-out;
                 opacity: 50%;
+
+                &:hover {
+                    scale: 1.1;
+                }
             }
 
             & .active {
