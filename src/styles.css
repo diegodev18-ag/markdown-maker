@@ -170,13 +170,14 @@ body {
             position: absolute;
             left: 0;
             bottom: 0;
+            margin-bottom: 2px;
+            padding-left: 5px;
             gap: 0;
 
             & button {
                 cursor: pointer;
                 border: none;
                 background: none;
-                padding: 5px 10px;
                 border-radius: 10px;
                 transition: opacity 200ms ease-in-out, scale 300ms ease-in-out;
                 opacity: 50%;
