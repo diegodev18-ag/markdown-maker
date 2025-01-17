@@ -183,7 +183,6 @@ body {
                 cursor: pointer;
                 border: none;
                 background: none;
-                border-radius: 10px;
                 transition: opacity 200ms ease-in-out, scale 300ms ease-in-out;
                 opacity: 50%;
 
