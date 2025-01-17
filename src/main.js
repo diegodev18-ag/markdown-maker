@@ -1,10 +1,6 @@
-const { invoke } = window.__TAURI__.core;
+const { invoke } = window.__TAURI__.core; // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
 let files = document.querySelectorAll(".file-name");
-
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-}
 
 window.addEventListener("DOMContentLoaded", () => {
   // Toggle between code and markdown
@@ -17,6 +13,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Search
   const searchButton = document.querySelector("#search-button");
+
+  // Options
+  const newFileButton = document.querySelector("#new-file");
   
   codeButton.addEventListener("click", () => {
     codeButton.classList.add("active");
@@ -48,6 +47,18 @@ window.addEventListener("DOMContentLoaded", () => {
       files.forEach((file) => {
         file.style.display = "block";
       });
+    }
+  });
+
+  newFileButton.addEventListener("click", async () => {
+    const fileName = prompt("Enter the file name (the md extension is added after the file is created):");
+    const filesContainer = document.querySelector("#files");
+    if (fileName) {
+      const file = document.createElement("button");
+      file.classList.add("file-name");
+      file.textContent = fileName;
+      filesContainer.appendChild(file);
+      files = document.querySelectorAll(".file-name");
     }
   });
 });
