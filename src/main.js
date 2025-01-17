@@ -1,6 +1,6 @@
 const { invoke } = window.__TAURI__.core; // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
-let files = document.querySelectorAll(".file-name");
+let filesName = document.querySelectorAll(".file-name");
 
 window.addEventListener("DOMContentLoaded", () => {
   // Toggle between code and markdown
@@ -35,7 +35,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const searchInput = document.querySelector("#search-input");
     const query = searchInput.value;
     if (query) {
-      files.forEach((file) => {
+      filesName.forEach((file) => {
         const fileName = file.textContent;
         if (fileName.includes(query)) {
           file.style.display = "block";
@@ -44,7 +44,7 @@ window.addEventListener("DOMContentLoaded", () => {
         }
       });
     } else {
-      files.forEach((file) => {
+      filesName.forEach((file) => {
         file.style.display = "block";
       });
     }
@@ -58,7 +58,7 @@ window.addEventListener("DOMContentLoaded", () => {
       file.classList.add("file-name");
       file.textContent = fileName;
       filesContainer.appendChild(file);
-      files = document.querySelectorAll(".file-name");
+      filesName = document.querySelectorAll(".file-name");
     }
   });
 });
