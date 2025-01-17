@@ -116,6 +116,11 @@ body {
     & textarea {
         font-size: 18px;
         padding: 10px;
+
+        &::placeholder {
+            font-weight: 500;
+            opacity: 35%;
+        }
     }
 
     & .editors {
