@@ -121,12 +121,12 @@ body {
     & .editors {
         width: 100%;
         height: 100%;
-        grid-template-columns: repeat(2, 1fr);
         gap: 2px;
     }
 
     & #code-editor {
         display: grid;
+        grid-template-columns: repeat(2, 1fr);
 
         & textarea {
             color: white;
@@ -146,6 +146,7 @@ body {
 
     & #markdown-editor {
         display: none;
+        grid-template-columns: 1fr;
 
         & textarea {
             color: white;
