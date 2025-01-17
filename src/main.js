@@ -2,9 +2,17 @@ const { invoke } = window.__TAURI__.core; // Learn more about Tauri commands at 
 
 let filesName = document.querySelectorAll(".file-name");
 
-async function saveFile(name, content) {
+async function saveFile(path, content) { // file_name: &str, file_path: &str, file_content: &str
   try {
-    await invoke("save_file", { fileName: name, fileContent: content });
+    await invoke("save_file", { filePath: path, fileContent: content });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function createDir(name) {
+  try {
+    await invoke("create_dir", { dirPath: name });
   } catch (error) {
     console.error(error);
   }
@@ -46,20 +54,25 @@ function search() {
   }
 }
 
-function newFile() {
-  const fileName = prompt("Enter the file name (the md extension is added after the file is created):");
+function newFile(filePath, fileName, content) {
   const filesContainer = document.querySelector("#files");
-  if (fileName) {
+  if (fileName && filePath) {
     const file = document.createElement("button");
     file.classList.add("file-name");
     file.textContent = fileName;
     filesContainer.appendChild(file);
     filesName = document.querySelectorAll(".file-name");
-    saveFile(fileName + ".md", "");
+    const fullPath = filePath + "/" + fileName + ".md";
+    saveFile(fullPath, content);
   }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+
+  createDir("../content");
+  createDir("../content/markdowns");
+  createDir("../content/src");
+
   // Toggle between code and markdown
   const codeButton = document.querySelector("#code-button");
   const mdButton = document.querySelector("#md-button");
@@ -75,5 +88,8 @@ window.addEventListener("DOMContentLoaded", () => {
 
   searchButton.addEventListener("click", () => { search() });
 
-  newFileButton.addEventListener("click", async () => { newFile() });
+  newFileButton.addEventListener("click", async () => { 
+    const fileName = prompt("Enter the file name (the md extension is added after the file is created):");
+    newFile("../content/markdowns", fileName, "") 
+  });
 });
