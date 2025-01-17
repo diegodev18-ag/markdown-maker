@@ -2,6 +2,14 @@ const { invoke } = window.__TAURI__.core; // Learn more about Tauri commands at 
 
 let filesName = document.querySelectorAll(".file-name");
 
+async function saveFile(name, content) {
+  try {
+    await invoke("save_file", { fileName: name, fileContent: content });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function changeMode(newMode, codeButton, mdButton) {
   const codeEditor = document.querySelector("#code-editor");
   const mdEditor = document.querySelector("#markdown-editor");
@@ -47,6 +55,7 @@ function newFile() {
     file.textContent = fileName;
     filesContainer.appendChild(file);
     filesName = document.querySelectorAll(".file-name");
+    saveFile(fileName + ".md", "");
   }
 }
 
