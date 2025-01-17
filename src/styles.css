@@ -79,8 +79,8 @@ body {
     & #files-container {
         margin-top: 20px;
         overflow-y: scroll;
-        scrollbar-width: none;
-        height: calc(100vh - 130px);
+        scrollbar-width: thin;
+        height: calc(100vh - 140px);
         inset: 0;
 
         & #files {
