@@ -10,9 +10,11 @@ const markdownCode = document.querySelector("#mardown-code");
 const cssCode = document.querySelector("#styles-code");
 const preview = document.querySelector("#preview");
 
-// Buttons
+// Modes buttons
 const codeButton = document.querySelector("#code-button");
 const mdButton = document.querySelector("#md-button");
+
+const downloadButton = document.querySelector("#download-button");
 
 async function saveFile(path, content) { // file_name: &str, file_path: &str, file_content: &str
   try {
@@ -159,6 +161,9 @@ window.addEventListener("DOMContentLoaded", () => {
     } else {
       document.querySelector("#watermark").style.display = "none";
       changeMode("code");
+      mdButton.style.cursor = "pointer";
+      codeButton.style.cursor = "pointer";
+      downloadButton.style.cursor = "pointer";
     }
     exButton = event.target;
     exButton.style.backgroundColor = "#0D0D0D";

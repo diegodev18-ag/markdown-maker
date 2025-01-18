@@ -151,6 +151,7 @@ body {
 
         & #preview {
             grid-area: span 2;
+            cursor: default;
         }
     }
 
@@ -185,7 +186,7 @@ body {
             gap: 0;
 
             & button {
-                cursor: pointer;
+                cursor: not-allowed;
                 border: none;
                 background: none;
                 transition: opacity 200ms ease-in-out, scale 300ms ease-in-out;
@@ -203,7 +204,7 @@ body {
 
         & #download-button {
             position: absolute;
-            cursor: pointer;
+            cursor: not-allowed;
             bottom: 0;
             right: 0;
             background: none;
