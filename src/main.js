@@ -2,12 +2,17 @@ const { invoke } = window.__TAURI__.core; // Learn more about Tauri commands at 
 
 let filesContainer = document.querySelector("#files");
 let fileActive;
+let exButton;
 
 let mode = "code";
 
 const markdownCode = document.querySelector("#mardown-code");
 const cssCode = document.querySelector("#styles-code");
 const preview = document.querySelector("#preview");
+
+// Buttons
+const codeButton = document.querySelector("#code-button");
+const mdButton = document.querySelector("#md-button");
 
 async function saveFile(path, content) { // file_name: &str, file_path: &str, file_content: &str
   try {
@@ -25,7 +30,7 @@ async function createDir(name) {
   }
 }
 
-function changeMode(newMode, codeButton, mdButton) {
+function changeMode(newMode) {
   if (!fileActive) { return; }
 
   const codeEditor = document.querySelector("#code-editor");
@@ -123,10 +128,6 @@ window.addEventListener("DOMContentLoaded", () => {
       cssCode.value = getContent;
     }
   });
-
-  // Toggle between code and markdown
-  const codeButton = document.querySelector("#code-button");
-  const mdButton = document.querySelector("#md-button");
   
   // Search
   const searchButton = document.querySelector("#search-button");
@@ -134,8 +135,8 @@ window.addEventListener("DOMContentLoaded", () => {
   // Options
   const newFileButton = document.querySelector("#new-file");
   
-  codeButton.addEventListener("click", () => { changeMode("code", codeButton, mdButton) });
-  mdButton.addEventListener("click", () => { changeMode("md", codeButton, mdButton) });
+  codeButton.addEventListener("click", () => { changeMode("code") });
+  mdButton.addEventListener("click", () => { changeMode("md") });
 
   searchButton.addEventListener("click", () => { search() });
 
@@ -145,11 +146,22 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   filesContainer.addEventListener("click", async (event) => {
+    if (event.target.id === "files") { return; }
+
     const fileName = event.target.textContent;
     const filePath = "../content/markdowns";
     const content = await getFileContent(`${filePath}/${fileName}.md`);
     fileActive = fileName;
     markdownCode.value = content;
+
+    if (exButton) {
+      exButton.style.backgroundColor = "#181818";
+    } else {
+      document.querySelector("#watermark").style.display = "none";
+      changeMode("code");
+    }
+    exButton = event.target;
+    exButton.style.backgroundColor = "#0D0D0D";
   });
 
   cssCode.addEventListener("input", () => {

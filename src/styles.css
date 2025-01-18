@@ -217,17 +217,12 @@ body {
         }
     }
     & #watermark {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: calc(100% - 110px);
+        position: fixed;
+        font-size: 35px;
+        font-weight: bolder;
+        bottom: 42%;
+        right: 25%;
+        opacity: 30%;
         cursor: default;
-        font-size: 30px;
-        padding-top: 20px;
-        color: white;
-        font-weight: bold;
-        position: absolute;
-        opacity: 50%;
     }
 }
