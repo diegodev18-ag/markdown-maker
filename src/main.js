@@ -112,6 +112,11 @@ window.addEventListener("DOMContentLoaded", () => {
   createDir("../content/markdowns");
   createDir("../content/src");
 
+  getFileContent("../content/src/css_template.txt").then((content) => {
+    cssCode.value = content;
+  });
+  saveFile("../content/src/styles.css", cssCode.value);
+
   // Toggle between code and markdown
   const codeButton = document.querySelector("#code-button");
   const mdButton = document.querySelector("#md-button");

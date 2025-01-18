@@ -24,4 +24,5 @@ dist-ssr
 *.sw?
 
 # Program files
-content/*
+content/markdowns/*
+content/src/styles.css
