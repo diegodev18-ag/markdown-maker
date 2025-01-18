@@ -10,6 +10,12 @@ const markdownCode = document.querySelector("#markdown-code");
 const cssCode = document.querySelector("#styles-code");
 const preview = document.querySelector("#preview");
 
+// Paths
+const newStylesPath = "../content/src/dinamicStyles.css";
+
+// Style
+const style = document.createElement("style");
+
 // Modes buttons
 const codeButton = document.querySelector("#code-button");
 const mdButton = document.querySelector("#md-button");
@@ -35,6 +41,14 @@ async function createDir(name) {
   } catch (error) {
     console.error(error);
   }
+}
+
+async function updateStyles() {
+  const content = await getFileContent(newStylesPath);
+  style.innerHTML = content;
+  // document.head.removeChild(style);
+  document.head.removeChild(document.head.lastChild);
+  document.head.appendChild(style);
 }
 
 function changeMode(newMode) {
@@ -127,9 +141,9 @@ window.addEventListener("DOMContentLoaded", () => {
   createDir("../content/src");
 
   getFileContent("../content/src/css_template.txt").then(async (content) => {
-    const getContent = await getFileContent("../content/src/styles.css");
+    const getContent = await getFileContent(newStylesPath);
     if (getContent === "None") {
-      saveFile("../content/src/styles.css", content);
+      saveFile(newStylesPath, content);
       cssCode.value = content;
     } else {
       cssCode.value = getContent;
@@ -175,13 +189,16 @@ window.addEventListener("DOMContentLoaded", () => {
     exButton.style.backgroundColor = "#0D0D0D";
   });
 
-  cssCode.addEventListener("input", () => {
-    saveFile("../content/src/styles.css", cssCode.value);
-    updatePreview(cssCode.value);
+  cssCode.addEventListener("input", async () => {
+    saveFile(newStylesPath, cssCode.value);
+    updatePreview(markdownCode.value);
+    await updateStyles();
   });
 
   markdownCode.addEventListener("input", () => {
     saveFile(`../content/markdowns/${fileActive}.md`, markdownCode.value);
     updatePreview(markdownCode.value);
   });
+
+  updateStyles();
 });
