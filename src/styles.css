@@ -131,7 +131,7 @@ body {
     }
 
     & #code-editor {
-        display: grid;
+        display: none;
         grid-template-columns: repeat(2, 1fr);
 
         & textarea {
@@ -215,5 +215,19 @@ body {
                 opacity: 100%;
             }
         }
+    }
+    & #watermark {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: calc(100% - 110px);
+        cursor: default;
+        font-size: 30px;
+        padding-top: 20px;
+        color: white;
+        font-weight: bold;
+        position: absolute;
+        opacity: 50%;
     }
 }

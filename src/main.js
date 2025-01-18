@@ -26,6 +26,8 @@ async function createDir(name) {
 }
 
 function changeMode(newMode, codeButton, mdButton) {
+  if (!fileActive) { return; }
+
   const codeEditor = document.querySelector("#code-editor");
   const mdEditor = document.querySelector("#markdown-editor");
 
