@@ -83,8 +83,8 @@ fn process_markdown(markdown: String) -> Result<String, String> {
         .output()
         .map_err(|e| e.to_string())?;
 
-    println!("status: {}", output.status);
-    println!("stderr: {}", String::from_utf8_lossy(&output.stderr));
+    // println!("status: {}", output.status);
+    // println!("stderr: {}", String::from_utf8_lossy(&output.stderr));
 
     // Captura la salida estándar del script
     let result = String::from_utf8(output.stdout).map_err(|e| e.to_string())?;
