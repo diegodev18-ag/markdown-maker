@@ -25,4 +25,4 @@ dist-ssr
 
 # Program files
 content/markdowns/*
-content/src/styles.css
+content/src/dinamicStyles.css

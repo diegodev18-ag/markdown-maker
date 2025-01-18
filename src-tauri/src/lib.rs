@@ -1,4 +1,6 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+use std::process::Command;
+
 #[tauri::command]
 fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
@@ -72,12 +74,29 @@ fn get_file_content(file_path: &str) -> String {
     content
 }
 
+#[tauri::command]
+fn process_markdown(markdown: String) -> Result<String, String> {
+    // Ejecuta el script de Node.js con el contenido Markdown como argumento
+    let output = Command::new("node")
+        .arg("src/utils/processMarkdown.js")
+        .arg(markdown)
+        .output()
+        .map_err(|e| e.to_string())?;
+
+    // println!("status: {}", output.status);
+    // println!("stderr: {}", String::from_utf8_lossy(&output.stderr));
+
+    // Captura la salida estándar del script
+    let result = String::from_utf8(output.stdout).map_err(|e| e.to_string())?;
+    Ok(result)
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
-            greet, save_file, create_dir, get_files, get_file_content
+            greet, save_file, create_dir, get_files, get_file_content, process_markdown
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

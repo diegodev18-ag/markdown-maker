@@ -6,9 +6,15 @@ let exButton;
 
 let mode = "code";
 
-const markdownCode = document.querySelector("#mardown-code");
+const markdownCode = document.querySelector("#markdown-code");
 const cssCode = document.querySelector("#styles-code");
 const preview = document.querySelector("#preview");
+
+// Paths
+const newStylesPath = "../content/src/dinamicStyles.css";
+
+// Style
+const style = document.createElement("style");
 
 // Modes buttons
 const codeButton = document.querySelector("#code-button");
@@ -24,12 +30,25 @@ async function saveFile(path, content) { // file_name: &str, file_path: &str, fi
   }
 }
 
+async function updatePreview(markdown) {
+  const content = await invoke("process_markdown", { markdown: markdown });
+  preview.innerHTML = content;
+}
+
 async function createDir(name) {
   try {
     await invoke("create_dir", { dirPath: name });
   } catch (error) {
     console.error(error);
   }
+}
+
+async function updateStyles() {
+  const content = await getFileContent(newStylesPath);
+  style.innerHTML = content;
+  // document.head.removeChild(style);
+  document.head.removeChild(document.head.lastChild);
+  document.head.appendChild(style);
 }
 
 function changeMode(newMode) {
@@ -122,9 +141,9 @@ window.addEventListener("DOMContentLoaded", () => {
   createDir("../content/src");
 
   getFileContent("../content/src/css_template.txt").then(async (content) => {
-    const getContent = await getFileContent("../content/src/styles.css");
+    const getContent = await getFileContent(newStylesPath);
     if (getContent === "None") {
-      saveFile("../content/src/styles.css", content);
+      saveFile(newStylesPath, content);
       cssCode.value = content;
     } else {
       cssCode.value = getContent;
@@ -155,6 +174,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const content = await getFileContent(`${filePath}/${fileName}.md`);
     fileActive = fileName;
     markdownCode.value = content;
+    updatePreview(content);
 
     if (exButton) {
       exButton.style.backgroundColor = "#181818";
@@ -169,11 +189,16 @@ window.addEventListener("DOMContentLoaded", () => {
     exButton.style.backgroundColor = "#0D0D0D";
   });
 
-  cssCode.addEventListener("input", () => {
-    saveFile("../content/src/styles.css", cssCode.value);
+  cssCode.addEventListener("input", async () => {
+    saveFile(newStylesPath, cssCode.value);
+    updatePreview(markdownCode.value);
+    await updateStyles();
   });
 
   markdownCode.addEventListener("input", () => {
     saveFile(`../content/markdowns/${fileActive}.md`, markdownCode.value);
+    updatePreview(markdownCode.value);
   });
+
+  updateStyles();
 });
