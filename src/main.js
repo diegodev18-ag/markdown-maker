@@ -112,10 +112,15 @@ window.addEventListener("DOMContentLoaded", () => {
   createDir("../content/markdowns");
   createDir("../content/src");
 
-  getFileContent("../content/src/css_template.txt").then((content) => {
-    cssCode.value = content;
+  getFileContent("../content/src/css_template.txt").then(async (content) => {
+    const getContent = await getFileContent("../content/src/styles.css");
+    if (getContent === "None") {
+      saveFile("../content/src/styles.css", content);
+      cssCode.value = content;
+    } else {
+      cssCode.value = getContent;
+    }
   });
-  saveFile("../content/src/styles.css", cssCode.value);
 
   // Toggle between code and markdown
   const codeButton = document.querySelector("#code-button");
@@ -143,5 +148,13 @@ window.addEventListener("DOMContentLoaded", () => {
     const content = await getFileContent(`${filePath}/${fileName}.md`);
     fileActive = fileName;
     markdownCode.value = content;
+  });
+
+  cssCode.addEventListener("input", () => {
+    saveFile("../content/src/styles.css", cssCode.value);
+  });
+
+  markdownCode.addEventListener("input", () => {
+    saveFile(`../content/markdowns/${fileActive}.md`, markdownCode.value);
   });
 });
