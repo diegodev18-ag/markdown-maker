@@ -51,11 +51,26 @@ fn get_files(dir_path: &str) -> Vec<String> {
     files
 }
 
+#[tauri::command]
+fn get_file_content(file_path: &str) -> String {
+    use std::fs::File;
+    use std::io::Read;
+
+    let mut file = File::open(file_path).expect("Unable to open file");
+    let mut content = String::new();
+    file.read_to_string(&mut content)
+        .expect("Unable to read data");
+
+    content
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet, save_file, create_dir, get_files])
+        .invoke_handler(tauri::generate_handler![
+            greet, save_file, create_dir, get_files, get_file_content
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

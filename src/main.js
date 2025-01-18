@@ -2,6 +2,13 @@ const { invoke } = window.__TAURI__.core; // Learn more about Tauri commands at 
 
 let filesName = document.querySelectorAll(".file-name");
 let fileActive = filesName[filesName.length - 1];
+let filesContainer = document.querySelector("#files");
+
+let mode = "code";
+
+const markdownCode = document.querySelector("#mardown-code");
+const cssCode = document.querySelector("#styles-code");
+const preview = document.querySelector("#preview");
 
 async function saveFile(path, content) { // file_name: &str, file_path: &str, file_content: &str
   try {
@@ -28,11 +35,13 @@ function changeMode(newMode, codeButton, mdButton) {
     codeEditor.style.display = "grid";
     mdButton.classList.remove("active");
     mdEditor.style.display = "none";
+    mode = "code";
   } else if (newMode === "md") {
     mdButton.classList.add("active");
     mdEditor.style.display = "grid";
     codeButton.classList.remove("active");
     codeEditor.style.display = "none";
+    mode = "md";
   }
 }
 
@@ -62,6 +71,16 @@ async function getFiles(dirPath) {
   } catch (error) {
     console.error(error);
     return []; // O algo que se maneje en caso de error
+  }
+}
+
+async function getFileContent(filePath) {
+  try {
+    const content = await invoke('get_file_content', { filePath: filePath });
+    return content;
+  } catch (error) {
+    console.error(error);
+    return ""; // O algo que se maneje en caso de error
   }
 }
 
