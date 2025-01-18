@@ -1,8 +1,7 @@
 const { invoke } = window.__TAURI__.core; // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
-let filesName = document.querySelectorAll(".file-name");
-let fileActive = filesName[filesName.length - 1];
 let filesContainer = document.querySelector("#files");
+let fileActive;
 
 let mode = "code";
 
@@ -49,7 +48,7 @@ function search() {
   const searchInput = document.querySelector("#search-input");
   const query = searchInput.value;
   if (query) {
-    filesName.forEach((file) => {
+    filesContainer.childNodes.forEach((file) => {
       const fileName = file.textContent;
       if (fileName.includes(query)) {
         file.style.display = "block";
@@ -58,7 +57,7 @@ function search() {
       }
     });
   } else {
-    filesName.forEach((file) => {
+    filesContainer.childNodes.forEach((file) => {
       file.style.display = "block";
     });
   }
@@ -95,7 +94,6 @@ function newButton(fileName) {
 function newFile(filePath, fileName, content) {
   if (fileName && filePath) {
     newButton(fileName);
-    filesName = document.querySelectorAll(".file-name");
     const fullPath = filePath + "/" + fileName + ".md";
     saveFile(fullPath, content);
     fileActive = fileName;
@@ -132,5 +130,13 @@ window.addEventListener("DOMContentLoaded", () => {
   newFileButton.addEventListener("click", async () => { 
     const fileName = prompt("Enter the file name (the md extension is added after the file is created):");
     newFile("../content/markdowns", fileName, "") 
+  });
+
+  filesContainer.addEventListener("click", async (event) => {
+    const fileName = event.target.textContent;
+    const filePath = "../content/markdowns";
+    const content = await getFileContent(`${filePath}/${fileName}.md`);
+    fileActive = fileName;
+    markdownCode.value = content;
   });
 });
