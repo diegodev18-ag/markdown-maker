@@ -30,11 +30,32 @@ fn create_dir(dir_path: &str) {
     }
 }
 
+#[tauri::command]
+fn get_files(dir_path: &str) -> Vec<String> {
+    use std::fs;
+    use std::path::Path;
+    let path = Path::new(&dir_path);
+    let mut files = Vec::new();
+
+    if path.is_dir() {
+        for entry in fs::read_dir(path).expect("Unable to read directory") {
+            let entry = entry.expect("Unable to get entry");
+            let path = entry.path();
+            if path.is_file() {
+                let file_name = path.file_name().unwrap().to_str().unwrap().to_string();
+                files.push(file_name);
+            }
+        }
+    }
+
+    files
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![greet, save_file, create_dir])
+        .invoke_handler(tauri::generate_handler![greet, save_file, create_dir, get_files])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

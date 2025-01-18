@@ -1,6 +1,7 @@
 const { invoke } = window.__TAURI__.core; // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
 let filesName = document.querySelectorAll(".file-name");
+let fileActive = filesName[filesName.length - 1];
 
 async function saveFile(path, content) { // file_name: &str, file_path: &str, file_content: &str
   try {
@@ -54,20 +55,41 @@ function search() {
   }
 }
 
-function newFile(filePath, fileName, content) {
+async function getFiles(dirPath) {
+  try {
+    const files = await invoke('get_files', { dirPath: dirPath });
+    return files;
+  } catch (error) {
+    console.error(error);
+    return []; // O algo que se maneje en caso de error
+  }
+}
+
+function newButton(fileName) {
   const filesContainer = document.querySelector("#files");
+  const file = document.createElement("button");
+  file.classList.add("file-name");
+  file.textContent = fileName;
+  filesContainer.appendChild(file);
+}
+
+function newFile(filePath, fileName, content) {
   if (fileName && filePath) {
-    const file = document.createElement("button");
-    file.classList.add("file-name");
-    file.textContent = fileName;
-    filesContainer.appendChild(file);
+    newButton(fileName);
     filesName = document.querySelectorAll(".file-name");
     const fullPath = filePath + "/" + fileName + ".md";
     saveFile(fullPath, content);
+    fileActive = fileName;
   }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+  const savedFiles = getFiles("../content/markdowns");
+  savedFiles.then((files) => {
+    files.forEach((file) => {
+      newButton(file.replace(".md", ""));
+    });
+  });
 
   createDir("../content");
   createDir("../content/markdowns");
