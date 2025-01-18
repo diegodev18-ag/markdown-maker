@@ -1,4 +1,4 @@
-#![225shots_so](https://github.com/user-attachments/assets/47fbdaab-1948-42de-91a2-ae02d8afacd3)
+![225shots_so](https://github.com/user-attachments/assets/47fbdaab-1948-42de-91a2-ae02d8afacd3)
  
 Tauri + Vanilla
 
