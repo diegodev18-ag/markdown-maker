@@ -142,7 +142,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   getFileContent("../content/src/css_template.txt").then(async (content) => {
     const getContent = await getFileContent(newStylesPath);
-    if (getContent === "None") {
+    if (getContent === "None" || getContent === "") {
       saveFile(newStylesPath, content);
       cssCode.value = content;
     } else {
@@ -189,10 +189,20 @@ window.addEventListener("DOMContentLoaded", () => {
     exButton.style.backgroundColor = "#0D0D0D";
   });
 
-  cssCode.addEventListener("input", async () => {
-    saveFile(newStylesPath, cssCode.value);
-    updatePreview(markdownCode.value);
-    await updateStyles();
+  cssCode.addEventListener("keydown", async (event) => {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      const start = cssCode.selectionStart; // Obtener el contenido actual del textarea
+      const end = cssCode.selectionEnd;
+      cssCode.value = cssCode.value.substring(0, start) + '    ' + cssCode.value.substring(end); // Insertar 4 espacios en la posición del cursor
+      cssCode.selectionStart = cssCode.selectionEnd = start + 4; // Mover el cursor después de los 4 espacios insertados
+    }
+
+    setTimeout(() => {
+      saveFile(newStylesPath, cssCode.value);
+      updatePreview(markdownCode.value);
+      updateStyles();
+    }, 0);
   });
 
   markdownCode.addEventListener("input", () => {
