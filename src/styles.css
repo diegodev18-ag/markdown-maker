@@ -114,7 +114,7 @@ body {
     background-color: #2B2B2B;
     position: relative;
 
-    & textarea {
+    & textarea, #preview {
         font-size: 18px;
         padding: 10px;
 
@@ -134,7 +134,7 @@ body {
         display: none;
         grid-template-columns: repeat(2, 1fr);
 
-        & textarea {
+        & textarea, #preview {
             color: white;
             background-color: rgb(25, 26, 25);
             border: none;

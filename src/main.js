@@ -6,7 +6,7 @@ let exButton;
 
 let mode = "code";
 
-const markdownCode = document.querySelector("#mardown-code");
+const markdownCode = document.querySelector("#markdown-code");
 const cssCode = document.querySelector("#styles-code");
 const preview = document.querySelector("#preview");
 
@@ -22,6 +22,11 @@ async function saveFile(path, content) { // file_name: &str, file_path: &str, fi
   } catch (error) {
     console.error(error);
   }
+}
+
+async function updatePreview(markdown) {
+  const content = await invoke("process_markdown", { markdown: markdown });
+  preview.innerHTML = content;
 }
 
 async function createDir(name) {
@@ -155,6 +160,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const content = await getFileContent(`${filePath}/${fileName}.md`);
     fileActive = fileName;
     markdownCode.value = content;
+    updatePreview(content);
 
     if (exButton) {
       exButton.style.backgroundColor = "#181818";
@@ -171,9 +177,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
   cssCode.addEventListener("input", () => {
     saveFile("../content/src/styles.css", cssCode.value);
+    updatePreview(cssCode.value);
   });
 
   markdownCode.addEventListener("input", () => {
     saveFile(`../content/markdowns/${fileActive}.md`, markdownCode.value);
+    updatePreview(markdownCode.value);
   });
 });
