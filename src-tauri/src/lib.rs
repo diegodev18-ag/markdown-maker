@@ -13,7 +13,7 @@ fn save_file(file_path: &str, file_content: &str) {
     file.write_all(file_content.as_bytes())
         .expect("Unable to write data");
 
-    println!("File saved successfully");
+    // println!("File saved successfully");
 }
 
 #[tauri::command]
@@ -57,10 +57,17 @@ fn get_file_content(file_path: &str) -> String {
     use std::fs::File;
     use std::io::Read;
 
-    let mut file = File::open(file_path).expect("Unable to open file");
     let mut content = String::new();
-    file.read_to_string(&mut content)
-        .expect("Unable to read data");
+    match File::open(file_path) {
+        Ok(mut file) => {
+            if let Err(_) = file.read_to_string(&mut content) {
+                content = String::from("Unable to read file content");
+            }
+        }
+        Err(_) => {
+            content = String::from("None");
+        }
+    }
 
     content
 }
