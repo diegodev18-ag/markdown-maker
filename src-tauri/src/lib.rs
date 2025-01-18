@@ -25,9 +25,10 @@ fn create_dir(dir_path: &str) {
     if !path.exists() {
         fs::create_dir_all(path).expect("Unable to create directory");
         println!("Directory created successfully -> {}", dir_path);
-    } else {
-        println!("Directory already exists -> {}", dir_path);
     }
+    // else {
+    //     println!("Directory already exists -> {}", dir_path);
+    // }
 }
 
 #[tauri::command]
