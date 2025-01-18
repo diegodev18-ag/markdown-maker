@@ -1,4 +1,6 @@
-# Tauri + Vanilla
+#![225shots_so](https://github.com/user-attachments/assets/47fbdaab-1948-42de-91a2-ae02d8afacd3)
+ 
+Tauri + Vanilla
 
 This template should help get you started developing with Tauri in vanilla HTML, CSS and Javascript.
 
