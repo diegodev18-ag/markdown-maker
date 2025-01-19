@@ -1,5 +1,12 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-use std::process::Command;
+use comrak::{markdown_to_html, ComrakOptions};
+use serde::{Deserialize, Serialize};
+
+#[derive(Deserialize, Serialize)]
+struct Frontmatter {
+    title: Option<String>,
+    date: Option<String>,
+}
 
 #[tauri::command]
 fn greet(name: &str) -> String {
@@ -102,20 +109,18 @@ fn get_file_content(file_path: &str) -> String {
 }
 
 #[tauri::command]
-fn process_markdown(markdown: String) -> Result<String, String> {
-    // Ejecuta el script de Node.js con el contenido Markdown como argumento
-    let output = Command::new("node")
-        .arg("src/utils/processMarkdown.js")
-        .arg(markdown)
-        .output()
-        .map_err(|e| e.to_string())?;
+fn process_markdown(markdown: String) -> Result<(String, Frontmatter), String> {
+    // Divide el frontmatter y el contenido
+    let parts: Vec<&str> = markdown.splitn(2, "---").collect();
+    if parts.len() < 2 {
+        return Err("Invalid Markdown: Missing frontmatter".to_string());
+    }
 
-    // println!("status: {}", output.status);
-    // println!("stderr: {}", String::from_utf8_lossy(&output.stderr));
+    let frontmatter: Frontmatter = serde_yaml::from_str(parts[0])
+        .map_err(|e| format!("Failed to parse frontmatter: {}", e))?;
+    let html = markdown_to_html(parts[1], &ComrakOptions::default());
 
-    // Captura la salida estándar del script
-    let result = String::from_utf8(output.stdout).map_err(|e| e.to_string())?;
-    Ok(result)
+    Ok((html, frontmatter))
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]

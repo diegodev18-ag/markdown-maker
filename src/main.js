@@ -49,7 +49,8 @@ async function saveFile(path, content) { // file_name: &str, file_path: &str, fi
 
 async function updatePreview(markdown) {
   const content = await invoke("process_markdown", { markdown: markdown });
-  preview.innerHTML = content;
+  // console.log(content);
+  preview.innerHTML = content[0];
 }
 
 async function createDir(name) {
