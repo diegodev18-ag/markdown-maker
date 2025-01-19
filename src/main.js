@@ -177,7 +177,7 @@ window.addEventListener("DOMContentLoaded", () => {
     updatePreview(content);
 
     if (exButton) {
-      exButton.style.backgroundColor = "#181818";
+      exButton.classList.remove("active");
     } else {
       document.querySelector("#watermark").style.display = "none";
       changeMode("code");
@@ -186,7 +186,7 @@ window.addEventListener("DOMContentLoaded", () => {
       downloadButton.style.cursor = "pointer";
     }
     exButton = event.target;
-    exButton.style.backgroundColor = "#0D0D0D";
+    exButton.classList.add("active");
   });
 
   cssCode.addEventListener("keydown", async (event) => {
