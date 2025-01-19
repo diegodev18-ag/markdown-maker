@@ -1,5 +1,7 @@
 const { invoke } = window.__TAURI__.core; // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
+const cssTemplate = `\n#preview {\n\n    & h1 {\n\n    }\n\n    & h2 {\n\n    }\n\n    & h3 {\n\n    }\n\n    & p {\n\n    }\n\n    & ul {\n\n    }\n\n    & ol {\n\n    }\n\n    & li {\n\n    }\n\n    & a {\n\n    }\n    \n    & blockquote {\n\n        & p {\n\n        }\n    }\n}\n`        
+
 let filesContainer = document.querySelector("#files");
 let fileActive;
 let exButton;
@@ -15,7 +17,6 @@ const fatherPath = "/tmp/markdownMaker";
 const newStylesPath = "/tmp/markdownMaker/src/dinamicStyles.css";
 const markdownsPath = "/tmp/markdownMaker/markdowns";
 const sourcePath = "/tmp/markdownMaker/src";
-const cssTemplatePath = "../../../src/css_template.txt";
 
 // Style
 const style = document.createElement("style");
@@ -82,6 +83,12 @@ async function downloadFile(filePath, fileName) {
   } catch (error) {
     console.error(error);
   }
+}
+
+function initFiles() {
+  createDir(fatherPath);
+  createDir(markdownsPath);
+  createDir(sourcePath);
 }
 
 function changeMode(newMode) {
@@ -161,6 +168,16 @@ function newFile(filePath, fileName, content) {
   }
 }
 
+async function initCss() {
+  const getContent = await getFileContent(newStylesPath);
+  if (getContent === "None" || getContent === "") {
+    saveFile(newStylesPath, cssTemplate);
+    cssCode.value = cssTemplate;
+  } else {
+    cssCode.value = getContent;
+  }
+} 
+
 window.addEventListener("DOMContentLoaded", () => {
   const savedFiles = getFiles(markdownsPath);
   savedFiles.then((files) => {
@@ -169,19 +186,8 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  createDir(fatherPath);
-  createDir(markdownsPath);
-  createDir(sourcePath);
-
-  getFileContent(cssTemplatePath).then(async (content) => {
-    const getContent = await getFileContent(newStylesPath);
-    if (getContent === "None" || getContent === "") {
-      saveFile(newStylesPath, content);
-      cssCode.value = content;
-    } else {
-      cssCode.value = getContent;
-    }
-  });
+  initFiles();
+  initCss();
   
   // Search
   const searchButton = document.querySelector("#search-button");
