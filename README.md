@@ -1,4 +1,4 @@
-![225shots_so](https://github.com/user-attachments/assets/47fbdaab-1948-42de-91a2-ae02d8afacd3)
+![825_1x_shots_so](https://github.com/user-attachments/assets/52703204-03c4-402c-a317-b0a45a09d74e)
 
 > Markdown Maker se creo con el motivo de hacer más fácil la escritura de archivos .md, ya que permite visualizar en tiempo real el resultado de la escritura en un panel de vista previa. Ademas de contar con una interfaz amigable y sencilla de usar. Permite descargar el archivo .md para su uso posterior en tus proyectos.
 
