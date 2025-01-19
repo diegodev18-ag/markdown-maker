@@ -64,8 +64,17 @@ async function updateStyles() {
 }
 
 async function downloadFile(filePath, fileName) {
+  const downloadAlert = document.querySelector("#saved-alert");
   try {
     await invoke("download_file", { path: filePath, fileName: fileName });
+
+    if (exButton) {
+      downloadAlert.style.opacity = "1";
+
+      setTimeout(() => {
+        downloadAlert.style.opacity = "0";
+      }, 3500);
+    }
   } catch (error) {
     console.error(error);
   }
