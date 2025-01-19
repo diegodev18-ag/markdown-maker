@@ -63,6 +63,14 @@ async function updateStyles() {
   document.head.appendChild(style);
 }
 
+async function downloadFile(filePath, fileName) {
+  try {
+    await invoke("download_file", { path: filePath, fileName: fileName });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function changeMode(newMode) {
   if (!fileActive) { return; }
 
@@ -199,6 +207,10 @@ window.addEventListener("DOMContentLoaded", () => {
     }
     exButton = event.target;
     exButton.classList.add("active");
+  });
+
+  downloadButton.addEventListener("click", async () => {
+    await downloadFile(`../content/markdowns/${fileActive}.md`, fileActive);
   });
 
   cssCode.addEventListener("keydown", async (event) => {

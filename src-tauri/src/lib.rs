@@ -6,6 +6,31 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
+fn get_home_directory() -> Result<String, String> {
+    use dirs;
+
+    match dirs::home_dir() {
+        Some(path) => Ok(path.to_string_lossy().to_string()),
+        None => Err("No se pudo obtener el directorio Home del usuario".to_string()),
+    }
+}
+
+#[tauri::command]
+fn download_file(path: &str, file_name: &str) {
+    use std::fs;
+
+    let home_dir = match get_home_directory() {
+        Ok(dir) => dir,
+        Err(err) => {
+            eprintln!("Error: {}", err);
+            return;
+        }
+    };
+
+    // println!("File copied successfully");
+    fs::copy(path, format!("{}/{}/{}.md", home_dir, "/Downloads", file_name)).expect("Unable to copy file");
+}
+
 #[tauri::command]
 fn save_file(file_path: &str, file_content: &str) {
     use std::fs::File;
@@ -98,7 +123,7 @@ pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
-            greet, save_file, create_dir, get_files, get_file_content, process_markdown
+            greet, save_file, create_dir, get_files, get_file_content, process_markdown, download_file
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
