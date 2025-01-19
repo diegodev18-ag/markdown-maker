@@ -13,7 +13,7 @@
 
 1. Clona el repositorio en tu máquina local
 ```bash
-git clone
+git clone https://github.com/diego-dev018/markdown-maker
 ```
 
 2. Instala las dependencias
