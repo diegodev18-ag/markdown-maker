@@ -11,7 +11,11 @@ const cssCode = document.querySelector("#styles-code");
 const preview = document.querySelector("#preview");
 
 // Paths
-const newStylesPath = "../content/src/dinamicStyles.css";
+const fatherPath = "/tmp/markdownMaker";
+const newStylesPath = "/tmp/markdownMaker/src/dinamicStyles.css";
+const markdownsPath = "/tmp/markdownMaker/markdowns";
+const sourcePath = "/tmp/markdownMaker/src";
+const cssTemplatePath = "../../../src/css_template.txt";
 
 // Style
 const style = document.createElement("style");
@@ -158,18 +162,18 @@ function newFile(filePath, fileName, content) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  const savedFiles = getFiles("../content/markdowns");
+  const savedFiles = getFiles(markdownsPath);
   savedFiles.then((files) => {
     files.forEach((file) => {
       newButton(file.replace(".md", ""));
     });
   });
 
-  createDir("../content");
-  createDir("../content/markdowns");
-  createDir("../content/src");
+  createDir(fatherPath);
+  createDir(markdownsPath);
+  createDir(sourcePath);
 
-  getFileContent("../content/src/css_template.txt").then(async (content) => {
+  getFileContent(cssTemplatePath).then(async (content) => {
     const getContent = await getFileContent(newStylesPath);
     if (getContent === "None" || getContent === "") {
       saveFile(newStylesPath, content);
@@ -192,15 +196,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
   newFileButton.addEventListener("click", async () => { 
     const fileName = prompt("Enter the file name (the md extension is added after the file is created):");
-    newFile("../content/markdowns", fileName, "") 
+    newFile(markdownsPath, fileName, "") 
   });
 
   filesContainer.addEventListener("click", async (event) => {
     if (event.target.id === "files") { return; }
 
     const fileName = event.target.textContent;
-    const filePath = "../content/markdowns";
-    const content = await getFileContent(`${filePath}/${fileName}.md`);
+    const content = await getFileContent(`${markdownsPath}/${fileName}.md`);
     fileActive = fileName;
     markdownCode.value = content;
     updatePreview(content);
@@ -219,7 +222,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   downloadButton.addEventListener("click", async () => {
-    await downloadFile(`../content/markdowns/${fileActive}.md`, fileActive);
+    await downloadFile(markdownsPath + `/${fileActive}.md`, fileActive);
   });
 
   cssCode.addEventListener("keydown", async (event) => {
@@ -250,7 +253,7 @@ window.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       lastExecuted += 1;
       if (lastToExecute === lastExecuted) {
-        saveFile(`../content/markdowns/${fileActive}.md`, markdownCode.value);
+        saveFile(markdownsPath + `/${fileActive}.md`, markdownCode.value);
         updatePreview(markdownCode.value);
         lastExecuted = 0;
         lastToExecute = 0;
