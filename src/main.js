@@ -1,6 +1,43 @@
 const { invoke } = window.__TAURI__.core; // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
-const cssTemplate = `\n#preview {\n\n    & h1 {\n\n    }\n\n    & h2 {\n\n    }\n\n    & h3 {\n\n    }\n\n    & p {\n\n    }\n\n    & ul {\n\n    }\n\n    & ol {\n\n    }\n\n    & li {\n\n    }\n\n    & a {\n\n    }\n    \n    & blockquote {\n\n        & p {\n\n        }\n    }\n}\n`        
+const cssTemplate = `\
+#preview {
+  & * {
+    margin: 0;
+    padding: 0;
+    color: white;
+  }
+
+  & h1 {
+
+  }
+  & h2 {
+
+  }
+  & h3 {
+
+  }
+  & p {
+
+  }
+  & ul {
+
+  }
+  & ol {
+
+  }
+  & li {
+
+  }
+  & a {
+
+  }
+  & blockquote {
+    & p {
+
+    }
+  }
+`        
 
 let filesContainer = document.querySelector("#files");
 let fileActive;
@@ -189,6 +226,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   initFiles();
   initCss();
+  updateStyles();
   
   // Search
   const searchButton = document.querySelector("#search-button");
@@ -203,7 +241,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   newFileButton.addEventListener("click", async () => { 
     const fileName = prompt("Enter the file name (the md extension is added after the file is created):");
-    newFile(markdownsPath, fileName, "") 
+    newFile(markdownsPath, fileName, "---\n\n---\n\n"); 
   });
 
   filesContainer.addEventListener("click", async (event) => {
