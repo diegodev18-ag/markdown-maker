@@ -20,7 +20,19 @@ const style = document.createElement("style");
 const codeButton = document.querySelector("#code-button");
 const mdButton = document.querySelector("#md-button");
 
+// Options
 const downloadButton = document.querySelector("#download-button");
+
+// Timers
+let delay = 2000;
+
+// Preview delay
+let lastToExecute = 0;
+let lastExecuted = 0;
+
+// Styles delay
+let lastToExecuteStyles = 0;
+let lastExecutedStyles = 0;
 
 async function saveFile(path, content) { // file_name: &str, file_path: &str, file_content: &str
   try {
@@ -197,17 +209,32 @@ window.addEventListener("DOMContentLoaded", () => {
       cssCode.value = cssCode.value.substring(0, start) + '    ' + cssCode.value.substring(end); // Insertar 4 espacios en la posición del cursor
       cssCode.selectionStart = cssCode.selectionEnd = start + 4; // Mover el cursor después de los 4 espacios insertados
     }
+    lastToExecuteStyles += 1;
 
     setTimeout(() => {
-      saveFile(newStylesPath, cssCode.value);
-      updatePreview(markdownCode.value);
-      updateStyles();
-    }, 0);
+      lastExecutedStyles += 1;
+      if (lastToExecuteStyles === lastExecutedStyles) {
+        saveFile(newStylesPath, cssCode.value);
+        updatePreview(markdownCode.value);
+        updateStyles();
+        lastExecutedStyles = 0;
+        lastToExecuteStyles = 0;
+      }
+    }, delay);
   });
 
   markdownCode.addEventListener("input", () => {
-    saveFile(`../content/markdowns/${fileActive}.md`, markdownCode.value);
-    updatePreview(markdownCode.value);
+    lastToExecute += 1;
+
+    setTimeout(() => {
+      lastExecuted += 1;
+      if (lastToExecute === lastExecuted) {
+        saveFile(`../content/markdowns/${fileActive}.md`, markdownCode.value);
+        updatePreview(markdownCode.value);
+        lastExecuted = 0;
+        lastToExecute = 0;
+      }
+    }, delay);
   });
 
   updateStyles();

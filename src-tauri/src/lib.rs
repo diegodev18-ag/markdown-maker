@@ -11,6 +11,8 @@ fn save_file(file_path: &str, file_content: &str) {
     use std::fs::File;
     use std::io::Write;
 
+    // println!("Saving file -> {}", file_path);
+
     let mut file = File::create(file_path).expect("Unable to create file");
     file.write_all(file_content.as_bytes())
         .expect("Unable to write data");
