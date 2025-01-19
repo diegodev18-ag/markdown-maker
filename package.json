@@ -12,8 +12,6 @@
     "@tauri-apps/cli": "2"
   },
   "dependencies": {
-    "@tauri-apps/plugin-fs": "2.2.0",
-    "gray-matter": "4.0.3",
-    "marked": "15.0.6"
+    "@tauri-apps/plugin-fs": "2.2.0"
   }
 }
