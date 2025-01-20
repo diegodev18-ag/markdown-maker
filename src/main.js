@@ -5,35 +5,63 @@ const cssTemplate = `\
   & * {
     margin: 0;
     padding: 0;
-    color: white;
   }
-
+  
   & h1 {
 
   }
+
   & h2 {
 
   }
+
   & h3 {
 
   }
+
   & p {
 
   }
+
   & ul {
 
+    & li {
+
+    }
   }
+
   & ol {
 
-  }
-  & li {
+    & li {
 
+    }
   }
+
   & a {
 
   }
+
   & blockquote {
+
     & p {
+
+    }
+  }
+
+  & code {
+
+  }
+
+  & pre {
+
+    & code {
+
+    }
+  }
+
+  & details {
+    
+    & summary {
 
     }
   }
