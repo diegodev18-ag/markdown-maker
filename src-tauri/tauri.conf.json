@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "markdown-maker",
+  "productName": "MarkdownMaker",
   "version": "0.1.0",
   "identifier": "com.markdown-maker.app",
   "build": {
@@ -10,7 +10,7 @@
     "withGlobalTauri": true,
     "windows": [
       {
-        "title": "markdown-maker",
+        "title": "MarkdownMaker",
         "width": 1300,
         "height": 750
       }
