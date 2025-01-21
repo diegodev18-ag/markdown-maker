@@ -143,6 +143,10 @@ body {
         display: none;
         grid-template-columns: repeat(2, 1fr);
 
+        & textarea {
+            letter-spacing: 0.6px;
+        }
+
         & textarea, #preview {
             color: white;
             background-color: rgb(25, 26, 25);
