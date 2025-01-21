@@ -80,7 +80,7 @@ body {
     & #files-container {
         margin-top: 20px;
         overflow-y: scroll;
-        scrollbar-width: thin;
+        scrollbar-width: none;
         height: calc(100vh - 140px);
         inset: 0;
 
@@ -121,6 +121,7 @@ body {
     & textarea, #preview {
         font-size: 18px;
         padding: 10px;
+        scrollbar-width: thin;
 
         &::placeholder {
             font-weight: 500;
@@ -222,11 +223,14 @@ body {
         }
     }
     & #watermark {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: calc(100% - 335px);
+        height: calc(100% - 8%);
         position: fixed;
         font-size: 35px;
         font-weight: bolder;
-        bottom: 42%;
-        right: 25%;
         opacity: 30%;
         cursor: default;
     }
