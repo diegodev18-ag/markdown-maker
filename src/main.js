@@ -113,7 +113,13 @@ async function saveFile(path, content) { // file_name: &str, file_path: &str, fi
 }
 
 async function updatePreview(markdown) {
-  const content = await invoke("process_markdown", { markdown: markdown });
+  let finalMarkdown = markdown;
+
+  if (markdown.match(/---/g).length == 2) {
+    finalMarkdown = markdown.replace("---", "");
+  }
+
+  const content = await invoke("process_markdown", { markdown: finalMarkdown });
   // console.log(content);
   preview.innerHTML = content[0];
 }
