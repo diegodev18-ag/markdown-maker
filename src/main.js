@@ -94,7 +94,7 @@ const mdButton = document.querySelector("#md-button");
 const downloadButton = document.querySelector("#download-button");
 
 // Timers
-let delay = 1000;
+let delay = 500;
 
 // Preview delay
 let lastToExecute = 0;
