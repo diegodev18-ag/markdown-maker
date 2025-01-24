@@ -78,10 +78,11 @@ const cssCode = document.querySelector("#styles-code");
 const preview = document.querySelector("#preview");
 
 // Paths
-const fatherPath = "/tmp/markdownMaker";
-const newStylesPath = "/tmp/markdownMaker/src/dinamicStyles.css";
-const markdownsPath = "/tmp/markdownMaker/markdowns";
-const sourcePath = "/tmp/markdownMaker/src";
+const basePath = `/tmp`;
+const fatherPath = `${basePath}/markdownMaker`;
+const sourcePath = `${fatherPath}/src`;
+const newStylesPath = `${sourcePath}/dinamicStyles.css`;
+const markdownsPath = `${fatherPath}/markdowns`;
 
 // Style
 const style = document.createElement("style");
