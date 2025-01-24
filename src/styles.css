@@ -36,21 +36,6 @@ body {
                 outline: none;
             }
         }
-        & button {
-            top: 10;
-            bottom: 0;
-            right: -28px;
-            cursor: pointer;
-            position: absolute;
-            background: none;
-            border: none;
-            transition: opacity 300ms ease-in-out;
-            opacity: 60%;
-
-            &:hover {
-                opacity: 100%;
-            }
-        }
     }
     
 

@@ -101,6 +101,7 @@ const mdButton = document.querySelector("#md-button");
 
 // Options
 const downloadButton = document.querySelector("#download-button");
+const searchInput = document.querySelector("#search-input");
 
 // Timers
 let delay = 500;
@@ -194,7 +195,6 @@ function changeMode(newMode) {
 }
 
 function search() {
-  const searchInput = document.querySelector("#search-input");
   const query = searchInput.value;
   if (query) {
     filesContainer.childNodes.forEach((file) => {
@@ -270,9 +270,6 @@ window.addEventListener("DOMContentLoaded", () => {
   initFiles();
   initCss();
   updateStyles();
-  
-  // Search
-  const searchButton = document.querySelector("#search-button");
 
   // Options
   const newFileButton = document.querySelector("#new-file");
@@ -280,7 +277,7 @@ window.addEventListener("DOMContentLoaded", () => {
   codeButton.addEventListener("click", () => { changeMode("code") });
   mdButton.addEventListener("click", () => { changeMode("md") });
 
-  searchButton.addEventListener("click", () => { search() });
+  searchInput.addEventListener("input", () => { search() });
 
   newFileButton.addEventListener("click", async () => { 
     const fileName = prompt("Enter the file name (the md extension is added after the file is created):");
