@@ -1,3 +1,4 @@
+const { platform } = window.__TAURI__.os;
 const { invoke } = window.__TAURI__.core; // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
 const cssTemplate = `\
@@ -77,12 +78,19 @@ const markdownCode = document.querySelector("#markdown-code");
 const cssCode = document.querySelector("#styles-code");
 const preview = document.querySelector("#preview");
 
+// Functions
+const currentPlatform = platform();
+
 // Paths
-const basePath = `/tmp`;
-const fatherPath = `${basePath}/markdownMaker`;
-const sourcePath = `${fatherPath}/src`;
-const newStylesPath = `${sourcePath}/dinamicStyles.css`;
-const markdownsPath = `${fatherPath}/markdowns`;
+let basePath = `/tmp`;
+if (currentPlatform === "windows") {
+  basePath = `C:/Windows/Temp`;
+}
+let fatherPath = `${basePath}/markdownMaker`;
+let sourcePath = `${fatherPath}/src`;
+let newStylesPath = `${sourcePath}/dinamicStyles.css`;
+let markdownsPath = `${fatherPath}/markdowns`;
+
 
 // Style
 const style = document.createElement("style");
