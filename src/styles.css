@@ -126,6 +126,7 @@ body {
         font-size: 18px;
         padding: 10px;
         scrollbar-width: thin;
+        scrollbar-color: #3A3A3A #2B2B2B;
 
         &::placeholder {
             font-weight: 500;
