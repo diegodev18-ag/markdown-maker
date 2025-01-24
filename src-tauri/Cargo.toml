@@ -25,6 +25,8 @@ serde_yaml = "0.9"
 serde_json = "1"
 dirs = "4.0"
 comrak = "0.17"
+tauri-plugin-fs = "2"
+tauri-plugin-os = "2"
 
 [profile.release]
 panic = "unwind"

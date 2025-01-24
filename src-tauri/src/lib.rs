@@ -35,7 +35,11 @@ fn download_file(path: &str, file_name: &str) {
     };
 
     // println!("File copied successfully");
-    fs::copy(path, format!("{}/{}/{}.md", home_dir, "/Downloads", file_name)).expect("Unable to copy file");
+    fs::copy(
+        path,
+        format!("{}/{}/{}.md", home_dir, "/Downloads", file_name),
+    )
+    .expect("Unable to copy file");
 }
 
 #[tauri::command]
@@ -54,8 +58,8 @@ fn save_file(file_path: &str, file_content: &str) {
 
 #[tauri::command]
 fn create_dir(dir_path: &str) {
-    use std::path::Path;
     use std::fs;
+    use std::path::Path;
     let path = Path::new(&dir_path);
 
     if !path.exists() {
@@ -126,9 +130,17 @@ fn process_markdown(markdown: String) -> Result<(String, Frontmatter), String> {
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_os::init())
+        .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
-            greet, save_file, create_dir, get_files, get_file_content, process_markdown, download_file
+            greet,
+            save_file,
+            create_dir,
+            get_files,
+            get_file_content,
+            process_markdown,
+            download_file
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
