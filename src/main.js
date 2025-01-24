@@ -9,61 +9,61 @@ const cssTemplate = `\
   }
   
   & h1 {
-
+    
   }
 
   & h2 {
-
+    
   }
 
   & h3 {
-
+    
   }
 
   & p {
-
+    
   }
 
   & ul {
-
+    
     & li {
-
+    
     }
   }
 
   & ol {
-
+    
     & li {
-
+    
     }
   }
 
   & a {
-
+    
   }
 
   & blockquote {
-
+    
     & p {
-
+    
     }
   }
 
   & code {
-
+    
   }
 
   & pre {
-
+    
     & code {
-
+    
     }
   }
 
   & details {
     
     & summary {
-
+    
     }
   }
 `        
