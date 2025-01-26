@@ -27,14 +27,14 @@ const cssTemplate = `\
   & ul {
     
     & li {
-        
+      
     }
   }
 
   & ol {
     
     & li {
-        
+      
     }
   }
 
@@ -45,7 +45,7 @@ const cssTemplate = `\
   & blockquote {
     
     & p {
-        
+      
     }
   }
 
@@ -56,14 +56,14 @@ const cssTemplate = `\
   & pre {
     
     & code {
-        
+      
     }
   }
 
   & details {
     
     & summary {
-        
+      
     }
   }
 }
