@@ -281,7 +281,17 @@ window.addEventListener("DOMContentLoaded", () => {
 
   newFileButton.addEventListener("click", async () => { 
     const fileName = prompt("Enter the file name (the md extension is added after the file is created):");
-    newFile(markdownsPath, fileName, "---\n\n---\n\n"); 
+    let found = false;
+    Array.from(filesContainer.children).forEach((file) => {
+      if (file.textContent === fileName) {
+        alert("This file already exists");
+        found = true;
+        return;
+      }
+    })
+    if (!found) {
+      newFile(markdownsPath, fileName, "---\n\n---\n\n");
+    }
   });
 
   filesContainer.addEventListener("contextmenu", (event) => {
