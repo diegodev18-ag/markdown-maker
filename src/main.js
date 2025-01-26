@@ -281,8 +281,31 @@ window.addEventListener("DOMContentLoaded", () => {
 
   newFileButton.addEventListener("click", async () => { 
     const fileName = prompt("Enter the file name (the md extension is added after the file is created):");
-    newFile(markdownsPath, fileName, "---\n\n---\n\n"); 
+    let found = false;
+    Array.from(filesContainer.children).forEach((file) => {
+      if (file.textContent === fileName) {
+        alert("This file already exists");
+        found = true;
+        return;
+      }
+    })
+    if (!found) {
+      newFile(markdownsPath, fileName, "---\n\n---\n\n");
+    }
   });
+
+  filesContainer.addEventListener("contextmenu", (event) => {
+    if (event.target.id === "files") { return; }
+
+    event.preventDefault();
+    const response = confirm("Do you want to delete this file?");
+    if (response) {
+      const fileName = event.target.textContent;
+      const filePath = `${markdownsPath}/${fileName}.md`;
+      invoke("delete_file", { filePath: filePath });
+      event.target.remove();
+    }
+  })
 
   filesContainer.addEventListener("click", async (event) => {
     if (event.target.id === "files") { return; }
