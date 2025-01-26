@@ -284,6 +284,19 @@ window.addEventListener("DOMContentLoaded", () => {
     newFile(markdownsPath, fileName, "---\n\n---\n\n"); 
   });
 
+  filesContainer.addEventListener("contextmenu", (event) => {
+    if (event.target.id === "files") { return; }
+
+    event.preventDefault();
+    const response = confirm("Do you want to delete this file?");
+    if (response) {
+      const fileName = event.target.textContent;
+      const filePath = `${markdownsPath}/${fileName}.md`;
+      // invoke("delete_file", { filePath: filePath });
+      event.target.remove();
+    }
+  })
+
   filesContainer.addEventListener("click", async (event) => {
     if (event.target.id === "files") { return; }
 
