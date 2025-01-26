@@ -292,7 +292,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (response) {
       const fileName = event.target.textContent;
       const filePath = `${markdownsPath}/${fileName}.md`;
-      // invoke("delete_file", { filePath: filePath });
+      invoke("delete_file", { filePath: filePath });
       event.target.remove();
     }
   })
