@@ -24,5 +24,3 @@ dist-ssr
 *.sw?
 
 # Program files
-content/markdowns/*
-content/src/dinamicStyles.css
