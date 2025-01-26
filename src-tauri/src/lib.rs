@@ -23,6 +23,16 @@ fn get_home_directory() -> Result<String, String> {
 }
 
 #[tauri::command]
+fn delete_file(file_path: &str) {
+    use std::fs;
+
+    println!("Deleting file -> {}", file_path);
+    
+    fs::remove_file(file_path).expect("Unable to delete file");
+    // println!("File deleted successfully");
+}
+
+#[tauri::command]
 fn download_file(path: &str, file_name: &str) {
     use std::fs;
 
@@ -140,7 +150,8 @@ pub fn run() {
             get_files,
             get_file_content,
             process_markdown,
-            download_file
+            download_file,
+            delete_file
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
