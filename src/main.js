@@ -66,7 +66,8 @@ const cssTemplate = `\
         
     }
   }
-`        
+}
+`
 
 let filesContainer = document.querySelector("#files");
 let fileActive;
