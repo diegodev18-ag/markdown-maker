@@ -331,7 +331,7 @@ window.addEventListener("DOMContentLoaded", () => {
   })
 
   filesContainer.addEventListener("click", async (event) => {
-    console.log(event.target.id);
+    // console.log(event.target.id);
     if (event.target.id === "files-and-folders") { return; }
 
     changeActive(event, event.target.classList[0]);
