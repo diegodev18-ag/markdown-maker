@@ -344,10 +344,11 @@ window.addEventListener("DOMContentLoaded", () => {
   cssCode.addEventListener("keydown", async (event) => {
     if (event.key === "Tab") {
       event.preventDefault();
+      const space = 2;
       const start = cssCode.selectionStart; // Obtener el contenido actual del textarea
       const end = cssCode.selectionEnd;
-      cssCode.value = cssCode.value.substring(0, start) + '    ' + cssCode.value.substring(end); // Insertar 4 espacios en la posición del cursor
-      cssCode.selectionStart = cssCode.selectionEnd = start + 4; // Mover el cursor después de los 4 espacios insertados
+      cssCode.value = cssCode.value.substring(0, start) + ' '.repeat(space) + cssCode.value.substring(end); // Insertar 4 espacios en la posición del cursor
+      cssCode.selectionStart = cssCode.selectionEnd = start + space; // Mover el cursor después de los 4 espacios insertados
     }
     lastToExecuteStyles += 1;
 
