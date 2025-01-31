@@ -250,6 +250,28 @@ function newFile(filePath, fileName, content) {
   }
 }
 
+async function changeActive(event, className) {
+  if (className === "file-name") {  
+    const fileName = event.target.textContent;
+    const content = await getFileContent(`${markdownsPath}/${fileName}.md`);
+    fileActive = fileName;
+    markdownCode.value = content;
+    updatePreview(content);
+  
+    if (exButton) {
+      exButton.classList.remove("active");
+    } else {
+      document.querySelector("#watermark").style.display = "none";
+      changeMode("code");
+      mdButton.style.cursor = "pointer";
+      codeButton.style.cursor = "pointer";
+      downloadButton.style.cursor = "pointer";
+    }
+    exButton = event.target;
+    exButton.classList.add("active");
+  }
+}
+
 async function initCss() {
   const getContent = await getFileContent(newStylesPath);
   if (getContent === "None" || getContent === "") {
@@ -296,7 +318,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   filesContainer.addEventListener("contextmenu", (event) => {
-    if (event.target.id === "files") { return; }
+    if (event.target.id === "files-and-folders") { return; }
 
     event.preventDefault();
     const response = confirm("Do you want to delete this file?");
@@ -309,25 +331,10 @@ window.addEventListener("DOMContentLoaded", () => {
   })
 
   filesContainer.addEventListener("click", async (event) => {
+    console.log(event.target.id);
     if (event.target.id === "files-and-folders") { return; }
 
-    const fileName = event.target.textContent;
-    const content = await getFileContent(`${markdownsPath}/${fileName}.md`);
-    fileActive = fileName;
-    markdownCode.value = content;
-    updatePreview(content);
-
-    if (exButton) {
-      exButton.classList.remove("active");
-    } else {
-      document.querySelector("#watermark").style.display = "none";
-      changeMode("code");
-      mdButton.style.cursor = "pointer";
-      codeButton.style.cursor = "pointer";
-      downloadButton.style.cursor = "pointer";
-    }
-    exButton = event.target;
-    exButton.classList.add("active");
+    changeActive(event, event.target.classList[0]);
   });
 
   downloadButton.addEventListener("click", async () => {
