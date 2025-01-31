@@ -243,6 +243,7 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
+        text-align: center;
         width: calc(100% - 335px);
         height: calc(100% - 8%);
         position: fixed;
