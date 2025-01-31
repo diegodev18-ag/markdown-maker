@@ -99,7 +99,7 @@ body {
             flex-direction: column;
             gap: 10px;
     
-            & .file-name {
+            & .file-name, & .folder-name {
                 cursor: pointer;
                 text-align: left;
                 text-wrap: nowrap;
