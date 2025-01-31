@@ -69,7 +69,7 @@ const cssTemplate = `\
 }
 `
 
-let filesContainer = document.querySelector("#files");
+let filesContainer = document.querySelector("#files-and-folders");
 let fileActive;
 let exButton;
 
@@ -234,7 +234,7 @@ async function getFileContent(filePath) {
 }
 
 function newButton(fileName) {
-  const filesContainer = document.querySelector("#files");
+  const filesContainer = document.querySelector("#files-and-folders");
   const file = document.createElement("button");
   file.classList.add("file-name");
   file.textContent = fileName;
@@ -309,7 +309,7 @@ window.addEventListener("DOMContentLoaded", () => {
   })
 
   filesContainer.addEventListener("click", async (event) => {
-    if (event.target.id === "files") { return; }
+    if (event.target.id === "files-and-folders") { return; }
 
     const fileName = event.target.textContent;
     const content = await getFileContent(`${markdownsPath}/${fileName}.md`);

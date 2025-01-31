@@ -94,7 +94,7 @@ body {
         height: calc(100vh - 140px);
         inset: 0;
 
-        & #files {
+        & #files-and-folders {
             display: flex;
             flex-direction: column;
             gap: 10px;
@@ -110,7 +110,7 @@ body {
                 padding: 5px 10px;
                 border: none;
                 border-radius: 10px;
-                transition: background-color 300ms ease-in-out, border-color 200ms ease-in-out;
+                transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out;
                 border: 1px solid transparent;
     
                 &:hover {
