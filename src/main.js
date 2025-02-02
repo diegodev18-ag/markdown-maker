@@ -223,6 +223,16 @@ async function getFiles(dirPath) {
   }
 }
 
+async function getFolders(dirPath) {
+  try {
+    const folders = await invoke('get_folders', { dirPath: dirPath });
+    return folders;
+  } catch (error) {
+    console.error(error);
+    return []; // O algo que se maneje en caso de error
+  }
+}
+
 async function getFileContent(filePath) {
   try {
     const content = await invoke('get_file_content', { filePath: filePath });
@@ -233,10 +243,14 @@ async function getFileContent(filePath) {
   }
 }
 
-function newButton(fileName) {
+function newButton(fileName, id = "file-name") {
   const filesContainer = document.querySelector("#files-and-folders");
   const file = document.createElement("button");
-  file.classList.add("file-name");
+  if (id === "file-name") {
+    file.classList.add("file-name");
+  } else {
+    file.classList.add("folder-name");
+  }
   file.textContent = fileName;
   filesContainer.appendChild(file);
 }
@@ -289,6 +303,12 @@ window.addEventListener("DOMContentLoaded", () => {
       newButton(file.replace(".md", ""));
     });
   });
+  const savedFolders = getFolders(markdownsPath);
+  savedFolders.then((folders) => {
+    folders.forEach((folder) => {
+      newButton(folder, "folder-name");
+    });
+  });
 
   initFiles();
   initCss();
@@ -337,7 +357,7 @@ window.addEventListener("DOMContentLoaded", () => {
   })
 
   filesContainer.addEventListener("click", async (event) => {
-    // console.log(event.target.id);
+    // console.log(event.target.classList[0]);
     if (event.target.id === "files-and-folders") { return; }
 
     changeActive(event, event.target.classList[0]);

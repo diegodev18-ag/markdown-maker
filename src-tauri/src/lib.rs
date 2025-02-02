@@ -103,6 +103,27 @@ fn get_files(dir_path: &str) -> Vec<String> {
 }
 
 #[tauri::command]
+fn get_folders(dir_path: &str) -> Vec<String> {
+    use std::fs;
+    use std::path::Path;
+    let path = Path::new(&dir_path);
+    let mut folders = Vec::new();
+
+    if path.is_dir() {
+        for entry in fs::read_dir(path).expect("Unable to read directory") {
+            let entry = entry.expect("Unable to get entry");
+            let path = entry.path();
+            if path.is_dir() {
+                let folder_name = path.file_name().unwrap().to_str().unwrap().to_string();
+                folders.push(folder_name);
+            }
+        }
+    }
+
+    folders
+}
+
+#[tauri::command]
 fn get_file_content(file_path: &str) -> String {
     use std::fs::File;
     use std::io::Read;
@@ -148,6 +169,7 @@ pub fn run() {
             save_file,
             create_dir,
             get_files,
+            get_folders,
             get_file_content,
             process_markdown,
             download_file,
