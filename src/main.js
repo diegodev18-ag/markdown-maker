@@ -249,6 +249,7 @@ function newButton(fileName, id = "file-name") {
   if (id === "file-name") {
     file.classList.add("file-name");
   } else {
+    fileName += currentPlatform === "windows" ? "\\" : "/";
     file.classList.add("folder-name");
   }
   file.textContent = fileName;
@@ -297,16 +298,16 @@ async function initCss() {
 } 
 
 window.addEventListener("DOMContentLoaded", () => {
-  const savedFiles = getFiles(markdownsPath);
-  savedFiles.then((files) => {
-    files.forEach((file) => {
-      newButton(file.replace(".md", ""));
-    });
-  });
   const savedFolders = getFolders(markdownsPath);
   savedFolders.then((folders) => {
     folders.forEach((folder) => {
       newButton(folder, "folder-name");
+    });
+  });
+  const savedFiles = getFiles(markdownsPath);
+  savedFiles.then((files) => {
+    files.forEach((file) => {
+      newButton(file.replace(".md", ""));
     });
   });
 
