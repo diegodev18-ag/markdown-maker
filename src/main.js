@@ -296,11 +296,17 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // Options
   const newFileButton = document.querySelector("#new-file");
+  const newFolderButton = document.querySelector("#new-folder");
   
   codeButton.addEventListener("click", () => { changeMode("code") });
   mdButton.addEventListener("click", () => { changeMode("md") });
 
   searchInput.addEventListener("input", () => { search() });
+
+  newFolderButton.addEventListener("click", async () => {
+    const folderName = prompt("Enter the folder name:");
+    createDir(`${markdownsPath}/${folderName}`);
+  })
 
   newFileButton.addEventListener("click", async () => { 
     const fileName = prompt("Enter the file name (the md extension is added after the file is created):");
