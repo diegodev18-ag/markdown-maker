@@ -169,6 +169,20 @@ async function downloadFile(filePath, fileName) {
 }
 
 function initFiles() {
+  const savedFolders = getFolders(markdownsPath);
+  savedFolders.then((folders) => {
+    folders.forEach((folder) => {
+      newButton(folder, "folder-name");
+    });
+  });
+  
+  const savedFiles = getFiles(markdownsPath);
+  savedFiles.then((files) => {
+    files.forEach((file) => {
+      newButton(file.replace(".md", ""));
+    });
+  });
+
   createDir(fatherPath);
   createDir(markdownsPath);
   createDir(sourcePath);
@@ -298,19 +312,6 @@ async function initCss() {
 } 
 
 window.addEventListener("DOMContentLoaded", () => {
-  const savedFolders = getFolders(markdownsPath);
-  savedFolders.then((folders) => {
-    folders.forEach((folder) => {
-      newButton(folder, "folder-name");
-    });
-  });
-  const savedFiles = getFiles(markdownsPath);
-  savedFiles.then((files) => {
-    files.forEach((file) => {
-      newButton(file.replace(".md", ""));
-    });
-  });
-
   initFiles();
   initCss();
   updateStyles();
