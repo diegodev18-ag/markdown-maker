@@ -345,7 +345,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   filesContainer.addEventListener("contextmenu", (event) => {
-    if (event.target.id === "files-and-folders") { return; }
+    if (event.target.id === "files-and-folders" || event.target.classList[0] === "folder-name") { return; }
 
     event.preventDefault();
     const response = confirm("Do you want to delete this file?");
