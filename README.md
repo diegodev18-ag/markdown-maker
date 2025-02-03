@@ -5,7 +5,6 @@
 ## Requerimientos como Desarrollador
 
 - Node.js
-- npm
 - Git
 - Rust
 
@@ -28,13 +27,18 @@ npm run dev
 
 4. Se iniciara la aplicacion automaticamente al construirse
 
+## Construccion
+
+```bash
+npm run build
+```
+
 ## Tecnologías
 
 - Rust
 - Html
 - Css
 - JavaScript
-- Node.js
 
 ### MarkDown
 
