@@ -295,6 +295,8 @@ function newFile(filePath, fileName, content) {
 
 async function changeActive(event) {
   if (event === "none") {
+    fileActive.name = "";
+    fileActive.path = "";
     exButton.classList.remove("active");
     exButton = null;
     mdButton.style.cursor = "not-allowed";
