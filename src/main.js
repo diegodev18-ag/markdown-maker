@@ -173,9 +173,15 @@ function initFiles() {
   savedFolders.then((folders) => {
     folders.forEach((folder) => {
       newButton(folder, "folder-name");
+      const savedFiles = getFiles(markdownsPath + `/${folder}`);
+      savedFiles.then((files) => {
+        files.forEach((file) => {
+          newButton(file.replace(".md", ""));
+        });
+      });
     });
   });
-  
+
   const savedFiles = getFiles(markdownsPath);
   savedFiles.then((files) => {
     files.forEach((file) => {
