@@ -176,7 +176,8 @@ function initFiles() {
       const savedFiles = getFiles(markdownsPath + `/${folder}`);
       savedFiles.then((files) => {
         files.forEach((file) => {
-          newButton(file.replace(".md", ""), "", "file-name");
+          const fullPath = markdownsPath + `/${folder}/${file}`;
+          newButton(file.replace(".md", ""), fullPath, "file-name");
         });
       });
     });
@@ -185,7 +186,8 @@ function initFiles() {
   const savedFiles = getFiles(markdownsPath);
   savedFiles.then((files) => {
     files.forEach((file) => {
-      newButton(file.replace(".md", ""));
+      const fullPath = markdownsPath + `/${file}`;
+      newButton(file.replace(".md", ""), fullPath, "file-name");
     });
   });
 
@@ -277,8 +279,8 @@ function newButton(fileName, id, className = "file-name") {
 
 function newFile(filePath, fileName, content) {
   if (fileName && filePath) {
-    newButton(fileName, "", "file-name");
     const fullPath = filePath + "/" + fileName + ".md";
+    newButton(fileName, fullPath, "file-name");
     saveFile(fullPath, content);
     fileActive = fileName;
   }
@@ -287,7 +289,7 @@ function newFile(filePath, fileName, content) {
 async function changeActive(event, className) {
   if (className === "file-name") {  
     const fileName = event.target.textContent;
-    const content = await getFileContent(`${markdownsPath}/${fileName}.md`);
+    const content = await getFileContent(event.target.id);
     fileActive = fileName;
     markdownCode.value = content;
     updatePreview(content);
