@@ -361,6 +361,7 @@ window.addEventListener("DOMContentLoaded", () => {
       const response = confirm("Do you want to delete this file?");
       if (response) {
         const filePath = event.target.id;
+        // changeActive(filesContainer.childNodes[0]);
         invoke("delete_file", { filePath: filePath });
         event.target.remove();
       }
@@ -375,7 +376,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
   filesContainer.addEventListener("click", async (event) => {
     // console.log(event.target.classList[0]);
-    if (event.target.id === "files-and-folders") { return; }
+    if (event.target.id === "files-and-folders" || event.target.classList[0] === "folder-name") { return; }
     changeActive(event.target);
   });
 
