@@ -367,8 +367,10 @@ window.addEventListener("DOMContentLoaded", () => {
       }
     } else {
       const response = prompt(`Enter the file name to create in \"${event.target.textContent}\" (the md extension is added after the file is created):`)
-      const fullPath = markdownsPath + `/${event.target.textContent.replace(currentPlatform === 'windows' ? '\\' : '/', '')}`;
-      newFile(fullPath, response, "---\n\n---\n\n");
+      if (response) {
+        const fullPath = markdownsPath + `/${event.target.textContent.replace(currentPlatform === 'windows' ? '\\' : '/', '')}`;
+        newFile(fullPath, response, "---\n\n---\n\n");
+      }
     }
   })
 
