@@ -355,14 +355,20 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   filesContainer.addEventListener("contextmenu", (event) => {
-    if (event.target.id === "files-and-folders" || event.target.classList[0] === "folder-name") { return; }
+    if (event.target.id === "files-and-folders") { return; }
 
     event.preventDefault();
-    const response = confirm("Do you want to delete this file?");
-    if (response) {
-      const filePath = event.target.id;
-      invoke("delete_file", { filePath: filePath });
-      event.target.remove();
+    if (event.target.classList[0] === "file-name") {
+      const response = confirm("Do you want to delete this file?");
+      if (response) {
+        const filePath = event.target.id;
+        invoke("delete_file", { filePath: filePath });
+        event.target.remove();
+      }
+    } else {
+      const response = prompt(`Enter the file name to create in \"${event.target.textContent}\" (the md extension is added after the file is created):`)
+      const fullPath = markdownsPath + `/${event.target.textContent.replace(currentPlatform === 'windows' ? '\\' : '/', '')}`;
+      newFile(fullPath, response, "---\n\n---\n\n");
     }
   })
 
