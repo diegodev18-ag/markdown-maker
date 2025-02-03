@@ -202,7 +202,13 @@ function changeMode(newMode) {
   const codeEditor = document.querySelector("#code-editor");
   const mdEditor = document.querySelector("#markdown-editor");
 
-  if (newMode === "code") {
+  if (newMode === "none") {
+    codeButton.classList.remove("active");
+    codeEditor.style.display = "none";
+    mdButton.classList.remove("active");
+    mdEditor.style.display = "none";
+    mode = "none";
+  } else if (newMode === "code") {
     codeButton.classList.add("active");
     codeEditor.style.display = "grid";
     mdButton.classList.remove("active");
@@ -288,6 +294,17 @@ function newFile(filePath, fileName, content) {
 }
 
 async function changeActive(event) {
+  if (event === "none") {
+    exButton.classList.remove("active");
+    exButton = null;
+    mdButton.style.cursor = "not-allowed";
+    codeButton.style.cursor = "not-allowed";
+    downloadButton.style.cursor = "not-allowed";
+    changeMode("none");
+    document.querySelector("#watermark").style.display = "flex";
+    return;
+  }
+
   if (event.classList[0] === "file-name") {  
     const content = await getFileContent(event.id);
     fileActive.name = event.textContent;
@@ -361,7 +378,7 @@ window.addEventListener("DOMContentLoaded", () => {
       const response = confirm("Do you want to delete this file?");
       if (response) {
         const filePath = event.target.id;
-        // changeActive(filesContainer.childNodes[0]);
+        changeActive("none");
         invoke("delete_file", { filePath: filePath });
         event.target.remove();
       }
