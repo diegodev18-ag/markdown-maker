@@ -287,12 +287,11 @@ function newFile(filePath, fileName, content) {
   }
 }
 
-async function changeActive(id, className, textContent) {
-  if (className === "file-name") {  
-    const fileName = textContent;
-    const content = await getFileContent(id);
-    fileActive.name = fileName;
-    fileActive.path = id;
+async function changeActive(event) {
+  if (event.classList[0] === "file-name") {  
+    const content = await getFileContent(event.id);
+    fileActive.name = event.textContent;
+    fileActive.path = event.id;
     markdownCode.value = content;
     updatePreview(content);
   
@@ -305,7 +304,7 @@ async function changeActive(id, className, textContent) {
       codeButton.style.cursor = "pointer";
       downloadButton.style.cursor = "pointer";
     }
-    exButton = event.target;
+    exButton = event;
     exButton.classList.add("active");
   }
 }
@@ -377,8 +376,7 @@ window.addEventListener("DOMContentLoaded", () => {
   filesContainer.addEventListener("click", async (event) => {
     // console.log(event.target.classList[0]);
     if (event.target.id === "files-and-folders") { return; }
-
-    changeActive(event.target.id, event.target.classList[0], event.target.textContent);
+    changeActive(event.target);
   });
 
   downloadButton.addEventListener("click", async () => {
