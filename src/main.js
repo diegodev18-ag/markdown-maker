@@ -70,7 +70,7 @@ const cssTemplate = `\
 `
 
 let filesContainer = document.querySelector("#files-and-folders");
-let fileActive;
+let fileActive = { name: "", path: "" };
 let exButton;
 
 let mode = "code";
@@ -169,13 +169,35 @@ async function downloadFile(filePath, fileName) {
 }
 
 function initFiles() {
+  const savedFolders = getFolders(markdownsPath);
+  savedFolders.then((folders) => {
+    folders.forEach((folder) => {
+      newButton(folder, "", "folder-name");
+      const savedFiles = getFiles(markdownsPath + `/${folder}`);
+      savedFiles.then((files) => {
+        files.forEach((file) => {
+          const fullPath = markdownsPath + `/${folder}/${file}`;
+          newButton(file.replace(".md", ""), fullPath, "file-name");
+        });
+      });
+    });
+  });
+
+  const savedFiles = getFiles(markdownsPath);
+  savedFiles.then((files) => {
+    files.forEach((file) => {
+      const fullPath = markdownsPath + `/${file}`;
+      newButton(file.replace(".md", ""), fullPath, "file-name");
+    });
+  });
+
   createDir(fatherPath);
   createDir(markdownsPath);
   createDir(sourcePath);
 }
 
 function changeMode(newMode) {
-  if (!fileActive) { return; }
+  if (!fileActive.name || !fileActive.path) { return; }
 
   const codeEditor = document.querySelector("#code-editor");
   const mdEditor = document.querySelector("#markdown-editor");
@@ -223,6 +245,16 @@ async function getFiles(dirPath) {
   }
 }
 
+async function getFolders(dirPath) {
+  try {
+    const folders = await invoke('get_folders', { dirPath: dirPath });
+    return folders;
+  } catch (error) {
+    console.error(error);
+    return []; // O algo que se maneje en caso de error
+  }
+}
+
 async function getFileContent(filePath) {
   try {
     const content = await invoke('get_file_content', { filePath: filePath });
@@ -233,28 +265,33 @@ async function getFileContent(filePath) {
   }
 }
 
-function newButton(fileName) {
+function newButton(fileName, id, className = "file-name") {
   const filesContainer = document.querySelector("#files-and-folders");
-  const file = document.createElement("button");
-  file.classList.add("file-name");
+  const file = document.createElement("button");  
+  if (className === "folder-name") {
+    fileName += currentPlatform === "windows" ? "\\" : "/";
+  }
+  file.id = id;
+  file.classList.add(className);
   file.textContent = fileName;
   filesContainer.appendChild(file);
 }
 
 function newFile(filePath, fileName, content) {
   if (fileName && filePath) {
-    newButton(fileName);
     const fullPath = filePath + "/" + fileName + ".md";
+    newButton(fileName, fullPath, "file-name");
     saveFile(fullPath, content);
-    fileActive = fileName;
+    // fileActive.name = fileName;
+    // fileActive.path = fullPath;
   }
 }
 
-async function changeActive(event, className) {
-  if (className === "file-name") {  
-    const fileName = event.target.textContent;
-    const content = await getFileContent(`${markdownsPath}/${fileName}.md`);
-    fileActive = fileName;
+async function changeActive(event) {
+  if (event.classList[0] === "file-name") {  
+    const content = await getFileContent(event.id);
+    fileActive.name = event.textContent;
+    fileActive.path = event.id;
     markdownCode.value = content;
     updatePreview(content);
   
@@ -267,7 +304,7 @@ async function changeActive(event, className) {
       codeButton.style.cursor = "pointer";
       downloadButton.style.cursor = "pointer";
     }
-    exButton = event.target;
+    exButton = event;
     exButton.classList.add("active");
   }
 }
@@ -283,24 +320,23 @@ async function initCss() {
 } 
 
 window.addEventListener("DOMContentLoaded", () => {
-  const savedFiles = getFiles(markdownsPath);
-  savedFiles.then((files) => {
-    files.forEach((file) => {
-      newButton(file.replace(".md", ""));
-    });
-  });
-
   initFiles();
   initCss();
   updateStyles();
 
   // Options
   const newFileButton = document.querySelector("#new-file");
+  const newFolderButton = document.querySelector("#new-folder");
   
   codeButton.addEventListener("click", () => { changeMode("code") });
   mdButton.addEventListener("click", () => { changeMode("md") });
 
   searchInput.addEventListener("input", () => { search() });
+
+  newFolderButton.addEventListener("click", async () => {
+    const folderName = prompt("Enter the folder name:");
+    createDir(`${markdownsPath}/${folderName}`);
+  })
 
   newFileButton.addEventListener("click", async () => { 
     const fileName = prompt("Enter the file name (the md extension is added after the file is created):");
@@ -321,20 +357,27 @@ window.addEventListener("DOMContentLoaded", () => {
     if (event.target.id === "files-and-folders") { return; }
 
     event.preventDefault();
-    const response = confirm("Do you want to delete this file?");
-    if (response) {
-      const fileName = event.target.textContent;
-      const filePath = `${markdownsPath}/${fileName}.md`;
-      invoke("delete_file", { filePath: filePath });
-      event.target.remove();
+    if (event.target.classList[0] === "file-name") {
+      const response = confirm("Do you want to delete this file?");
+      if (response) {
+        const filePath = event.target.id;
+        // changeActive(filesContainer.childNodes[0]);
+        invoke("delete_file", { filePath: filePath });
+        event.target.remove();
+      }
+    } else {
+      const response = prompt(`Enter the file name to create in \"${event.target.textContent}\" (the md extension is added after the file is created):`)
+      if (response) {
+        const fullPath = markdownsPath + `/${event.target.textContent.replace(currentPlatform === 'windows' ? '\\' : '/', '')}`;
+        newFile(fullPath, response, "---\n\n---\n\n");
+      }
     }
   })
 
   filesContainer.addEventListener("click", async (event) => {
-    // console.log(event.target.id);
-    if (event.target.id === "files-and-folders") { return; }
-
-    changeActive(event, event.target.classList[0]);
+    // console.log(event.target.classList[0]);
+    if (event.target.id === "files-and-folders" || event.target.classList[0] === "folder-name") { return; }
+    changeActive(event.target);
   });
 
   downloadButton.addEventListener("click", async () => {
@@ -370,7 +413,7 @@ window.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       lastExecuted += 1;
       if (lastToExecute === lastExecuted) {
-        saveFile(markdownsPath + `/${fileActive}.md`, markdownCode.value);
+        saveFile(fileActive.path, markdownCode.value);
         updatePreview(markdownCode.value);
         lastExecuted = 0;
         lastToExecute = 0;
