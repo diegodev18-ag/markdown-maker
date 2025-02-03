@@ -172,11 +172,11 @@ function initFiles() {
   const savedFolders = getFolders(markdownsPath);
   savedFolders.then((folders) => {
     folders.forEach((folder) => {
-      newButton(folder, "folder-name");
+      newButton(folder, "", "folder-name");
       const savedFiles = getFiles(markdownsPath + `/${folder}`);
       savedFiles.then((files) => {
         files.forEach((file) => {
-          newButton(file.replace(".md", ""));
+          newButton(file.replace(".md", ""), "", "file-name");
         });
       });
     });
@@ -263,22 +263,21 @@ async function getFileContent(filePath) {
   }
 }
 
-function newButton(fileName, id = "file-name") {
+function newButton(fileName, id, className = "file-name") {
   const filesContainer = document.querySelector("#files-and-folders");
-  const file = document.createElement("button");
-  if (id === "file-name") {
-    file.classList.add("file-name");
-  } else {
+  const file = document.createElement("button");  
+  if (className === "folder-name") {
     fileName += currentPlatform === "windows" ? "\\" : "/";
-    file.classList.add("folder-name");
   }
+  file.id = id;
+  file.classList.add(className);
   file.textContent = fileName;
   filesContainer.appendChild(file);
 }
 
 function newFile(filePath, fileName, content) {
   if (fileName && filePath) {
-    newButton(fileName);
+    newButton(fileName, "", "file-name");
     const fullPath = filePath + "/" + fileName + ".md";
     saveFile(fullPath, content);
     fileActive = fileName;
