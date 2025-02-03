@@ -70,7 +70,7 @@ const cssTemplate = `\
 `
 
 let filesContainer = document.querySelector("#files-and-folders");
-let fileActive;
+let fileActive = { name: "", path: "" };
 let exButton;
 
 let mode = "code";
@@ -197,7 +197,7 @@ function initFiles() {
 }
 
 function changeMode(newMode) {
-  if (!fileActive) { return; }
+  if (!fileActive.name || !fileActive.path) { return; }
 
   const codeEditor = document.querySelector("#code-editor");
   const mdEditor = document.querySelector("#markdown-editor");
@@ -282,7 +282,8 @@ function newFile(filePath, fileName, content) {
     const fullPath = filePath + "/" + fileName + ".md";
     newButton(fileName, fullPath, "file-name");
     saveFile(fullPath, content);
-    fileActive = fileName;
+    // fileActive.name = fileName;
+    // fileActive.path = fullPath;
   }
 }
 
@@ -290,7 +291,8 @@ async function changeActive(event, className) {
   if (className === "file-name") {  
     const fileName = event.target.textContent;
     const content = await getFileContent(event.target.id);
-    fileActive = fileName;
+    fileActive.name = fileName;
+    fileActive.path = event.target.id;
     markdownCode.value = content;
     updatePreview(content);
   
@@ -358,8 +360,7 @@ window.addEventListener("DOMContentLoaded", () => {
     event.preventDefault();
     const response = confirm("Do you want to delete this file?");
     if (response) {
-      const fileName = event.target.textContent;
-      const filePath = `${markdownsPath}/${fileName}.md`;
+      const filePath = event.target.id;
       invoke("delete_file", { filePath: filePath });
       event.target.remove();
     }
@@ -405,7 +406,7 @@ window.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       lastExecuted += 1;
       if (lastToExecute === lastExecuted) {
-        saveFile(markdownsPath + `/${fileActive}.md`, markdownCode.value);
+        saveFile(fileActive.path, markdownCode.value);
         updatePreview(markdownCode.value);
         lastExecuted = 0;
         lastToExecute = 0;
