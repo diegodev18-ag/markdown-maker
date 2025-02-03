@@ -287,12 +287,12 @@ function newFile(filePath, fileName, content) {
   }
 }
 
-async function changeActive(event, className) {
+async function changeActive(id, className, textContent) {
   if (className === "file-name") {  
-    const fileName = event.target.textContent;
-    const content = await getFileContent(event.target.id);
+    const fileName = textContent;
+    const content = await getFileContent(id);
     fileActive.name = fileName;
-    fileActive.path = event.target.id;
+    fileActive.path = id;
     markdownCode.value = content;
     updatePreview(content);
   
@@ -378,7 +378,7 @@ window.addEventListener("DOMContentLoaded", () => {
     // console.log(event.target.classList[0]);
     if (event.target.id === "files-and-folders") { return; }
 
-    changeActive(event, event.target.classList[0]);
+    changeActive(event.target.id, event.target.classList[0], event.target.textContent);
   });
 
   downloadButton.addEventListener("click", async () => {
