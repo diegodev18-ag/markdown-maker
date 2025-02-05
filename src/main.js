@@ -352,7 +352,9 @@ window.addEventListener("DOMContentLoaded", () => {
 
   newFolderButton.addEventListener("click", async () => {
     const folderName = prompt("Enter the folder name:");
-    createDir(`${markdownsPath}/${folderName}`);
+    if (folderName) {
+      createDir(`${markdownsPath}/${folderName}`);
+    }
   })
 
   newFileButton.addEventListener("click", async () => { 
