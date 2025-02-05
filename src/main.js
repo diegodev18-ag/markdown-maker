@@ -437,6 +437,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const folderName = await initPrompt("Enter the folder name:");
     if (folderName) {
       createDir(`${markdownsPath}/${folderName}`);
+      newButton(folderName, "", "folder-name");
     }
   })
 
