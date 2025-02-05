@@ -266,3 +266,83 @@ body {
     cursor: default;
     transition: opacity 500ms ease-in-out;
 }
+
+.prompt-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 15px 20px;
+    width: 250px;
+    background-color: #1A2023;
+    z-index: 1000;
+    translate: -50% -50%;
+
+    & .prompt-question {
+        margin: 0;
+        font-weight: bold;
+        color: #fff;
+        font-size: 20px;
+    }
+
+    & .prompt-add {
+        font-size: 12px;
+        opacity: 80%;
+        color: #fff;
+    }
+
+    & .prompt-input {
+        display: block;
+        width: calc(100% - 15px);
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        outline: none;
+        padding: 4px 5px;
+        font-size: 16px;
+        background-color: #293035;
+        color: #fff;
+    }
+}
+
+.confirm-container {
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 15px 20px;
+    width: 250px;
+    margin: 20px;
+    background-color: #1A2023;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: 1000;
+
+    & .confirm-question {
+        font-size: 20px;
+        font-weight: bold;
+        color: #fff;
+        margin: 0;
+    }
+
+    & .confirm-button-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 5px;
+        padding-top: 15px;
+
+        & .confirm-button {
+            width: 100%;
+            font-size: 15px;
+            background-color: #293035;
+            color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            transition: background-color 0.3s;
+
+            &:hover {
+                background-color: #37373D;
+            }
+        }
+    }
+}

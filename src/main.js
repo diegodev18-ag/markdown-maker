@@ -340,41 +340,20 @@ function initPrompt(question, placeholder = "", add = "Press enter to continue..
   return new Promise((resolve) => {
     // Crear elementos
     const promptContainer = document.createElement("div");
-    const promptQuestion = document.createElement("p");
+    const promptQuestion = document.createElement("h5");
     const promptAdd = document.createElement("p");
     const promptInput = document.createElement("input");
 
+    // Añadir clases
+    promptContainer.classList.add("prompt-container");
+    promptQuestion.classList.add("prompt-question");
+    promptAdd.classList.add("prompt-add");
+    promptInput.classList.add("prompt-input");
+
     // Agregar contenido y estilos
     promptQuestion.textContent = question;
-    promptQuestion.style.margin = "0";
-    promptQuestion.style.fontWeight = "bold";
-    promptQuestion.style.color = "#fff";
     promptAdd.textContent = add;
-    promptAdd.style.fontSize = "12px";
-    promptAdd.style.opacity = "0.8";
-    promptAdd.style.color = "#fff";
     promptInput.placeholder = placeholder;
-    promptInput.style.width = "calc(100% - 15px)";
-    promptInput.style.borderRadius = "5px";
-    promptInput.style.border = "1px solid #ccc";
-    promptInput.style.outline = "none";
-    promptInput.style.padding = "4px 5px";
-    promptInput.style.display = "block";
-    promptInput.style.fontSize = "16px";
-    promptInput.style.backgroundColor = "#293035";
-    promptInput.style.color = "#fff";
-
-    promptContainer.style.border = "1px solid #ccc";
-    promptContainer.style.padding = "15px 20px";
-    promptContainer.style.width = "250px";
-    promptContainer.style.margin = "20px";
-    promptContainer.style.backgroundColor = "#1A2023";
-    promptContainer.style.position = "fixed";
-    promptContainer.style.top = "45%";
-    promptContainer.style.left = "48%";
-    promptContainer.style.transform = "translate(-50%, -50%)";
-    promptContainer.style.zIndex = "1000";
-    promptContainer.style.borderRadius = "15px";
 
     // Agregar elementos al contenedor
     promptContainer.appendChild(promptQuestion);
@@ -403,30 +382,27 @@ function initConfirm(question) {
     // Crear elementos
     const confirmContainer = document.createElement("div");
     const confirmQuestion = document.createElement("p");
+    const confirmButtonContainer = document.createElement("div");
     const confirmYesButton = document.createElement("button");
     const confirmNoButton = document.createElement("button");
 
+    // Añadir clases
+    confirmContainer.classList.add("confirm-container");
+    confirmQuestion.classList.add("confirm-question");
+    confirmButtonContainer.classList.add("confirm-button-container");
+    confirmYesButton.classList.add("confirm-button");
+    confirmNoButton.classList.add("confirm-button");
+
     // Agregar contenido y estilos
     confirmQuestion.textContent = question;
-    confirmQuestion.style.margin = "0";
     confirmYesButton.textContent = "Yes";
     confirmNoButton.textContent = "No";
 
-    confirmContainer.style.border = "1px solid #ccc";
-    confirmContainer.style.padding = "10px";
-    confirmContainer.style.width = "250px";
-    confirmContainer.style.margin = "20px";
-    confirmContainer.style.backgroundColor = "#f9f9f9";
-    confirmContainer.style.position = "fixed";
-    confirmContainer.style.top = "50%";
-    confirmContainer.style.left = "50%";
-    confirmContainer.style.transform = "translate(-50%, -50%)";
-    confirmContainer.style.zIndex = "1000";
-
     // Agregar elementos al contenedor
     confirmContainer.appendChild(confirmQuestion);
-    confirmContainer.appendChild(confirmYesButton);
-    confirmContainer.appendChild(confirmNoButton);
+    confirmContainer.appendChild(confirmButtonContainer);
+    confirmButtonContainer.appendChild(confirmYesButton);
+    confirmButtonContainer.appendChild(confirmNoButton);
     document.body.appendChild(confirmContainer);
 
     // Capturar la entrada del usuario
