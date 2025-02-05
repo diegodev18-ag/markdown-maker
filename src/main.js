@@ -334,7 +334,89 @@ async function initCss() {
   } else {
     cssCode.value = getContent;
   }
-} 
+}
+
+function initPrompt(question, placeholder = "", add = "Press enter to continue...") {
+  return new Promise((resolve) => {
+    // Crear elementos
+    const promptContainer = document.createElement("div");
+    const promptQuestion = document.createElement("h5");
+    const promptAdd = document.createElement("p");
+    const promptInput = document.createElement("input");
+
+    // Añadir clases
+    promptContainer.classList.add("prompt-container");
+    promptQuestion.classList.add("prompt-question");
+    promptAdd.classList.add("prompt-add");
+    promptInput.classList.add("prompt-input");
+
+    // Agregar contenido y estilos
+    promptQuestion.textContent = question;
+    promptAdd.textContent = add;
+    promptInput.placeholder = placeholder;
+
+    // Agregar elementos al contenedor
+    promptContainer.appendChild(promptQuestion);
+    promptContainer.appendChild(promptAdd);
+    promptContainer.appendChild(promptInput);
+    document.body.appendChild(promptContainer);
+
+    // Capturar la entrada del usuario
+    promptInput.addEventListener("keypress", function (event) {
+      if (event.key === "Enter") {
+        resolve(promptInput.value);
+        document.body.removeChild(promptContainer);
+      } else if (event.key === "Escape") {
+        resolve(null);
+        document.body.removeChild(promptContainer);
+      }
+    });
+
+    // Poner foco en el input
+    promptInput.focus();
+  });
+}
+
+function initConfirm(question) {
+  return new Promise((resolve) => {
+    // Crear elementos
+    const confirmContainer = document.createElement("div");
+    const confirmQuestion = document.createElement("p");
+    const confirmButtonContainer = document.createElement("div");
+    const confirmYesButton = document.createElement("button");
+    const confirmNoButton = document.createElement("button");
+
+    // Añadir clases
+    confirmContainer.classList.add("confirm-container");
+    confirmQuestion.classList.add("confirm-question");
+    confirmButtonContainer.classList.add("confirm-button-container");
+    confirmYesButton.classList.add("confirm-button");
+    confirmNoButton.classList.add("confirm-button");
+
+    // Agregar contenido y estilos
+    confirmQuestion.textContent = question;
+    confirmYesButton.textContent = "Yes";
+    confirmNoButton.textContent = "No";
+
+    // Agregar elementos al contenedor
+    confirmContainer.appendChild(confirmQuestion);
+    confirmContainer.appendChild(confirmButtonContainer);
+    confirmButtonContainer.appendChild(confirmYesButton);
+    confirmButtonContainer.appendChild(confirmNoButton);
+    document.body.appendChild(confirmContainer);
+
+    // Capturar la entrada del usuario
+    confirmYesButton.addEventListener("click", function () {
+      resolve(true);
+      document.body.removeChild(confirmContainer);
+    });
+
+    confirmNoButton.addEventListener("click", function () {
+      resolve(false);
+      document.body.removeChild(confirmContainer);
+    });
+  });
+}
 
 window.addEventListener("DOMContentLoaded", () => {
   initFiles();
@@ -351,14 +433,15 @@ window.addEventListener("DOMContentLoaded", () => {
   searchInput.addEventListener("input", () => { search() });
 
   newFolderButton.addEventListener("click", async () => {
-    const folderName = prompt("Enter the folder name:");
+    // const folderName = prompt("Enter the folder name:");
+    const folderName = await initPrompt("Enter the folder name:");
     if (folderName) {
       createDir(`${markdownsPath}/${folderName}`);
     }
   })
 
   newFileButton.addEventListener("click", async () => { 
-    const fileName = prompt("Enter the file name (the md extension is added after the file is created):");
+    const fileName = await initPrompt("Enter the file name (the md extension is added after the file is created):");
     let found = false;
     Array.from(filesContainer.children).forEach((file) => {
       if (file.textContent === fileName) {
@@ -372,12 +455,12 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  filesContainer.addEventListener("contextmenu", (event) => {
+  filesContainer.addEventListener("contextmenu", async (event) => {
     if (event.target.id === "files-and-folders") { return; }
 
     event.preventDefault();
     if (event.target.classList[0] === "file-name") {
-      const response = confirm("Do you want to delete this file?");
+      const response = await initConfirm("Do you want to delete this file?");
       if (response) {
         const filePath = event.target.id;
         changeActive("none");
@@ -385,7 +468,7 @@ window.addEventListener("DOMContentLoaded", () => {
         event.target.remove();
       }
     } else {
-      const response = prompt(`Enter the file name to create in \"${event.target.textContent}\" (the md extension is added after the file is created):`)
+      const response = await initPrompt(`Enter the file name to create in \"${event.target.textContent}\" (the md extension is added after the file is created):`)
       if (response) {
         const fullPath = markdownsPath + `/${event.target.textContent.replace(currentPlatform === 'windows' ? '\\' : '/', '')}`;
         newFile(fullPath, response, "---\n\n---\n\n");
