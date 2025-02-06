@@ -118,6 +118,10 @@ body {
                 }
             }
 
+            & .child-file-name {
+                padding-left: 30px;
+            }
+
             & .active {
                 background-color: #37373D;
                 border-color: #fff;

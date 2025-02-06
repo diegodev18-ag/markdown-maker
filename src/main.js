@@ -168,21 +168,17 @@ async function downloadFile(filePath, fileName) {
   }
 }
 
-function initFiles() {
-  const savedFolders = getFolders(markdownsPath);
-  savedFolders.then((folders) => {
-    folders.forEach((folder) => {
-      const fullPathFolder = markdownsPath + `/${folder}`;
-      newButton(folder, fullPathFolder, "folder-name");
-      const savedFiles = getFiles(markdownsPath + `/${folder}`);
-      savedFiles.then((files) => {
-        files.forEach((file) => {
-          const fullPathFile = markdownsPath + `/${folder}/${file}`;
-          newButton(file.replace(".md", ""), fullPathFile, "file-name");
-        });
-      });
-    });
-  });
+async function initFiles() {
+  const savedFolders = await getFolders(markdownsPath);
+  for (const folder of savedFolders) {
+    const fullPathFolder = markdownsPath + `/${folder}`;
+    newButton(folder, fullPathFolder, "folder-name");
+    const savedFiles = await getFiles(markdownsPath + `/${folder}`);
+    for (const file of savedFiles) {
+      const fullPathFile = markdownsPath + `/${folder}/${file}`;
+      newButton(file.replace(".md", ""), fullPathFile, "file-name", "child-file-name");
+    }
+  }
 
   const savedFiles = getFiles(markdownsPath);
   savedFiles.then((files) => {
@@ -272,14 +268,15 @@ async function getFileContent(filePath) {
   }
 }
 
-function newButton(fileName, id, className = "file-name") {
+function newButton(fileName, id, className = "file-name", ...classes) {
   const filesContainer = document.querySelector("#files-and-folders");
-  const file = document.createElement("button");  
+  const file = document.createElement("button");
   if (className === "folder-name") {
     fileName += currentPlatform === "windows" ? "\\" : "/";
   }
   file.id = id;
   file.classList.add(className);
+  file.classList.add(...classes);
   file.textContent = fileName;
   filesContainer.appendChild(file);
 }
