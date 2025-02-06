@@ -172,12 +172,13 @@ function initFiles() {
   const savedFolders = getFolders(markdownsPath);
   savedFolders.then((folders) => {
     folders.forEach((folder) => {
-      newButton(folder, "", "folder-name");
+      const fullPathFolder = markdownsPath + `/${folder}`;
+      newButton(folder, fullPathFolder, "folder-name");
       const savedFiles = getFiles(markdownsPath + `/${folder}`);
       savedFiles.then((files) => {
         files.forEach((file) => {
-          const fullPath = markdownsPath + `/${folder}/${file}`;
-          newButton(file.replace(".md", ""), fullPath, "file-name");
+          const fullPathFile = markdownsPath + `/${folder}/${file}`;
+          newButton(file.replace(".md", ""), fullPathFile, "file-name");
         });
       });
     });
@@ -436,8 +437,9 @@ window.addEventListener("DOMContentLoaded", () => {
     // const folderName = prompt("Enter the folder name:");
     const folderName = await initPrompt("Enter the folder name:");
     if (folderName) {
-      createDir(`${markdownsPath}/${folderName}`);
-      newButton(folderName, "", "folder-name");
+      const fullPath = markdownsPath + `/${folderName}`;
+      createDir(fullPath);
+      newButton(folderName, fullPath, "folder-name");
     }
   })
 
