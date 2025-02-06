@@ -279,6 +279,30 @@ body {
     z-index: 1000;
     translate: -50% -50%;
 
+    & .prompt-quit {
+        position: absolute;
+        padding: 0;
+        height: fit-content;
+        top: 3px; 
+        right: 3px;
+        background: none;
+        border: none;
+
+        & svg {
+            cursor: pointer;
+            color: #fff;
+            opacity: 30%;
+            transition: rotate 0.5s ease-in-out, color 0.5s ease-in-out, opacity 0.5s ease-in-out, scale 0.5s ease-in-out;
+
+            &:hover {
+                scale: 1.05;
+                color: #ff6e6e;
+                rotate: 180deg;
+                opacity: 100%;
+            }
+        }
+    }
+
     & .prompt-question {
         margin: 0;
         font-weight: bold;

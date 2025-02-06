@@ -344,19 +344,23 @@ function initPrompt(question, placeholder = "", add = "Press enter to continue..
     const promptQuestion = document.createElement("h5");
     const promptAdd = document.createElement("p");
     const promptInput = document.createElement("input");
+    const promptQuit = document.createElement("button");
 
     // Añadir clases
     promptContainer.classList.add("prompt-container");
+    promptQuit.classList.add("prompt-quit");
     promptQuestion.classList.add("prompt-question");
     promptAdd.classList.add("prompt-add");
     promptInput.classList.add("prompt-input");
 
     // Agregar contenido y estilos
+    promptQuit.innerHTML = '<svg  xmlns="http://www.w3.org/2000/svg"  width="18"  height="18"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="3"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>';
     promptQuestion.textContent = question;
     promptAdd.textContent = add;
     promptInput.placeholder = placeholder;
 
     // Agregar elementos al contenedor
+    promptContainer.appendChild(promptQuit);
     promptContainer.appendChild(promptQuestion);
     promptContainer.appendChild(promptAdd);
     promptContainer.appendChild(promptInput);
@@ -371,6 +375,12 @@ function initPrompt(question, placeholder = "", add = "Press enter to continue..
         resolve(null);
         document.body.removeChild(promptContainer);
       }
+    });
+
+    // Cerrar el prompt
+    promptQuit.addEventListener("click", function () {
+      resolve(null);
+      document.body.removeChild(promptContainer);
     });
 
     // Poner foco en el input
