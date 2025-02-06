@@ -151,10 +151,10 @@ async function updateStyles() {
   document.head.appendChild(style);
 }
 
-async function downloadFile(filePath, fileName) {
+async function downloadFile() {
   const downloadAlert = document.querySelector("#saved-alert");
   try {
-    await invoke("download_file", { path: filePath, fileName: fileName });
+    await invoke("download_file", { path: fileActive.path, fileName: fileActive.name });
 
     if (exButton) {
       downloadAlert.style.opacity = "1";
@@ -493,7 +493,7 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
   downloadButton.addEventListener("click", async () => {
-    await downloadFile(markdownsPath + `/${fileActive}.md`, fileActive);
+    await downloadFile();
   });
 
   cssCode.addEventListener("keydown", async (event) => {
