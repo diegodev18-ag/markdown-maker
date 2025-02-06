@@ -176,7 +176,7 @@ async function initFiles() {
     const savedFiles = await getFiles(markdownsPath + `/${folder}`);
     for (const file of savedFiles) {
       const fullPathFile = markdownsPath + `/${folder}/${file}`;
-      newButton(file.replace(".md", ""), fullPathFile, "file-name", "child-file-name");
+      newButton(file.replace(".md", ""), fullPathFile, "file-name", null, "child-file-name");
     }
   }
 
@@ -223,14 +223,17 @@ function changeMode(newMode) {
 function search() {
   const query = searchInput.value;
   if (query) {
+    const found = [];
     filesContainer.childNodes.forEach((file) => {
       const fileName = file.textContent;
       if (fileName.includes(query)) {
         file.style.display = "block";
+        found.push(file);
       } else {
         file.style.display = "none";
       }
     });
+    return found ?? [];
   } else {
     filesContainer.childNodes.forEach((file) => {
       file.style.display = "block";
@@ -268,7 +271,7 @@ async function getFileContent(filePath) {
   }
 }
 
-function newButton(fileName, id, className = "file-name", ...classes) {
+function newButton(fileName, id, className = "file-name", reference, ...classes) {
   const filesContainer = document.querySelector("#files-and-folders");
   const file = document.createElement("button");
   if (className === "folder-name") {
@@ -278,13 +281,17 @@ function newButton(fileName, id, className = "file-name", ...classes) {
   file.classList.add(className);
   file.classList.add(...classes);
   file.textContent = fileName;
-  filesContainer.appendChild(file);
+  if (reference) {
+    filesContainer.insertBefore(file, reference);
+  } else {
+    filesContainer.appendChild(file);
+  }
 }
 
-function newFile(filePath, fileName, content) {
+function newFile(filePath, fileName, content, reference, ...classes) {
   if (fileName && filePath) {
     const fullPath = filePath + "/" + fileName + ".md";
-    newButton(fileName, fullPath, "file-name", "child-file-name");
+    newButton(fileName, fullPath, "file-name", reference, ...classes);
     saveFile(fullPath, content);
     // fileActive.name = fileName;
     // fileActive.path = fullPath;
@@ -469,7 +476,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (event.target.id === "files-and-folders") { return; }
 
     event.preventDefault();
-    if (event.target.classList[0] === "file-name") {
+    if (event.target.classList[0] === "file-name") { // File
       const response = await initConfirm("Do you want to delete this file?");
       if (response) {
         const filePath = event.target.id;
@@ -477,11 +484,12 @@ window.addEventListener("DOMContentLoaded", () => {
         invoke("delete_file", { filePath: filePath });
         event.target.remove();
       }
-    } else {
+    } else { // Folder
       const response = await initPrompt(`Enter the file name to create in \"${event.target.textContent}\" (the md extension is added after the file is created):`)
       if (response) {
         const fullPath = markdownsPath + `/${event.target.textContent.replace(currentPlatform === 'windows' ? '\\' : '/', '')}`;
-        newFile(fullPath, response, "---\n\n---\n\n");
+        const reference = event.target.nextSibling;
+        newFile(fullPath, response, "---\n\n---\n\n", reference, "child-file-name");
       }
     }
   })
