@@ -245,6 +245,7 @@ body {
     }
     & #watermark {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         text-align: center;
@@ -255,6 +256,12 @@ body {
         font-weight: bolder;
         opacity: 30%;
         cursor: default;
+
+        & span {
+            margin-top: 5px;
+            font-size: 25px;
+            font-weight: bold;
+        }
     }
 }
 
