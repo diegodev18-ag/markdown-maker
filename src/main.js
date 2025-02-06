@@ -196,6 +196,7 @@ async function initFiles() {
 function changeMode(newMode) {
   if (!fileActive.name || !fileActive.path) { return; }
 
+  const stylesCode = document.querySelector("#styles-code");
   const codeEditor = document.querySelector("#code-editor");
 
   if (newMode === "none") {
@@ -205,13 +206,16 @@ function changeMode(newMode) {
     mode = "none";
   } else if (newMode === "code") {
     codeButton.classList.add("active");
-    codeEditor.style.display = "grid";
     mdButton.classList.remove("active");
+    codeEditor.style.display = "grid";
+    codeEditor.style.gridTemplateRows = "1fr 1fr";
+    stylesCode.style.display = "block";
     mode = "code";
   } else if (newMode === "md") {
     mdButton.classList.add("active");
     codeButton.classList.remove("active");
-    codeEditor.style.display = "none";
+    codeEditor.style.gridTemplateRows = "1fr 0";
+    stylesCode.style.display = "none";
     mode = "md";
   }
 }
