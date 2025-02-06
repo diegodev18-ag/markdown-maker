@@ -284,7 +284,7 @@ function newButton(fileName, id, className = "file-name", ...classes) {
 function newFile(filePath, fileName, content) {
   if (fileName && filePath) {
     const fullPath = filePath + "/" + fileName + ".md";
-    newButton(fileName, fullPath, "file-name");
+    newButton(fileName, fullPath, "file-name", "child-file-name");
     saveFile(fullPath, content);
     // fileActive.name = fileName;
     // fileActive.path = fullPath;
