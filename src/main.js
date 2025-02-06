@@ -341,7 +341,7 @@ async function initCss() {
   }
 }
 
-function initPrompt(question, placeholder = "", add = "Press enter to continue...") {
+function initPrompt(question, placeholder = "", add = "Press enter to continue...", ...components) {
   return new Promise((resolve) => {
     // Crear elementos
     const promptContainer = document.createElement("div");
@@ -369,6 +369,12 @@ function initPrompt(question, placeholder = "", add = "Press enter to continue..
     promptContainer.appendChild(promptAdd);
     promptContainer.appendChild(promptInput);
     document.body.appendChild(promptContainer);
+
+    if (components) {
+      components.forEach((component) => {
+        promptContainer.appendChild(component);
+      });
+    }
 
     // Capturar la entrada del usuario
     promptInput.addEventListener("keypress", function (event) {
@@ -485,7 +491,7 @@ window.addEventListener("DOMContentLoaded", () => {
         event.target.remove();
       }
     } else { // Folder
-      const response = await initPrompt(`Enter the file name to create in \"${event.target.textContent}\" (the md extension is added after the file is created):`)
+      const response = await initPrompt(`Enter the file name to create in \"${event.target.textContent}\" (the md extension is added after the file is created):`, "", "Enter to continue...");
       if (response) {
         const fullPath = markdownsPath + `/${event.target.textContent.replace(currentPlatform === 'windows' ? '\\' : '/', '')}`;
         const reference = event.target.nextSibling;

@@ -330,6 +330,21 @@ body {
         background-color: #293035;
         color: #fff;
     }
+
+    & .extra-prompt-button {
+        width: 100%;
+        font-size: 15px;
+        background-color: #293035;
+        color: #fff;
+        border: 1px solid #ccc;
+        border-radius: 15px;
+        transition: background-color 0.3s;
+        margin-top: 10px;
+
+        &:hover {
+            background-color: #37373D;
+        }
+    }
 }
 
 .confirm-container {
