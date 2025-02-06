@@ -197,23 +197,19 @@ function changeMode(newMode) {
   if (!fileActive.name || !fileActive.path) { return; }
 
   const codeEditor = document.querySelector("#code-editor");
-  const mdEditor = document.querySelector("#markdown-editor");
 
   if (newMode === "none") {
     codeButton.classList.remove("active");
     codeEditor.style.display = "none";
     mdButton.classList.remove("active");
-    mdEditor.style.display = "none";
     mode = "none";
   } else if (newMode === "code") {
     codeButton.classList.add("active");
     codeEditor.style.display = "grid";
     mdButton.classList.remove("active");
-    mdEditor.style.display = "none";
     mode = "code";
   } else if (newMode === "md") {
     mdButton.classList.add("active");
-    mdEditor.style.display = "grid";
     codeButton.classList.remove("active");
     codeEditor.style.display = "none";
     mode = "md";
