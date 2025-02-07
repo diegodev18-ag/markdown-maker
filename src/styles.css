@@ -178,6 +178,8 @@ body {
         & #preview {
             grid-area: span 2;
             cursor: default;
+            overflow-y: scroll;
+            max-height: calc(100vh - 20px);
         }
     }
 
