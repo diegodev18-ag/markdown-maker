@@ -174,16 +174,16 @@ async function initFiles() {
   for (const folder of savedFolders) {
     const fullPathFolder = markdownsPath + `/${folder}`;
     newButton(folder, fullPathFolder, "folder-name");
-    let savedFiles = await getFiles(markdownsPath + `/${folder}`);
+/*     let savedFiles = await getFiles(markdownsPath + `/${folder}`);
     savedFiles = savedFiles.sort((a, b) => a.localeCompare(b));
     for (const file of savedFiles) {
       const fullPathFile = markdownsPath + `/${folder}/${file}`;
       newButton(file.replace(".md", ""), fullPathFile, "file-name", null, "child-file-name");
-    }
+    } */
   }
 
   let savedFiles = getFiles(markdownsPath);
-  savedFiles = savedFiles.sort((a, b) => a.localeCompare(b));
+  // savedFiles = savedFiles.sort((a, b) => a.localeCompare(b));
   savedFiles.then((files) => {
     files.forEach((file) => {
       const fullPath = markdownsPath + `/${file}`;
@@ -444,6 +444,19 @@ function initConfirm(question) {
   });
 }
 
+async function pressFolder(event, mode) {
+  let savedFiles = await getFiles(event.id);
+  savedFiles = savedFiles.sort((a, b) => b.localeCompare(a));
+  for (const file of savedFiles) {
+    const fullPathFile = `${event.id}/${file}`;
+    if (mode === "start") {
+      newButton(file.replace(".md", ""), fullPathFile, "file-name", event.nextSibling, "child-file-name");
+    } else {
+      event.nextSibling.remove();
+    }
+  }
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   initFiles();
   initCss();
@@ -505,10 +518,22 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   })
 
+  const pressedFolders = [];
   filesContainer.addEventListener("click", async (event) => {
     // console.log(event.target.classList[0]);
-    if (event.target.id === "files-and-folders" || event.target.classList[0] === "folder-name") { return; }
-    changeActive(event.target);
+    if (event.target.id === "files-and-folders") { return; }
+
+    if (event.target.classList[0] === "file-name") {
+      changeActive(event.target);
+    } else if (event.target.classList[0] === "folder-name") {
+      if (!pressedFolders.includes(event.target)) {
+        pressFolder(event.target, "start");
+        pressedFolders.push(event.target);
+      } else {
+        pressFolder(event.target, "stop");
+        pressedFolders.splice(pressedFolders.indexOf(event.target), 1);
+      }
+    }
   });
 
   downloadButton.addEventListener("click", async () => {
