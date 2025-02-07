@@ -183,7 +183,7 @@ async function initFiles() {
   }
 
   let savedFiles = getFiles(markdownsPath);
-  savedFiles = savedFiles.sort((a, b) => a.localeCompare(b));
+  // savedFiles = savedFiles.sort((a, b) => a.localeCompare(b));
   savedFiles.then((files) => {
     files.forEach((file) => {
       const fullPath = markdownsPath + `/${file}`;
@@ -507,8 +507,12 @@ window.addEventListener("DOMContentLoaded", () => {
 
   filesContainer.addEventListener("click", async (event) => {
     // console.log(event.target.classList[0]);
-    if (event.target.id === "files-and-folders" || event.target.classList[0] === "folder-name") { return; }
-    changeActive(event.target);
+    if (event.target.id === "files-and-folders") { return; }
+    if (event.target.classList[0] === "file-name") {
+      changeActive(event.target);
+    } else if (event.target.classList[0] === "folder-name") {
+      console.log("Folder");
+    }
   });
 
   downloadButton.addEventListener("click", async () => {
