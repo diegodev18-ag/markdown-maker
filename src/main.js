@@ -169,18 +169,21 @@ async function downloadFile() {
 }
 
 async function initFiles() {
-  const savedFolders = await getFolders(markdownsPath);
+  let savedFolders = await getFolders(markdownsPath);
+  savedFolders = savedFolders.sort((a, b) => a.localeCompare(b));
   for (const folder of savedFolders) {
     const fullPathFolder = markdownsPath + `/${folder}`;
     newButton(folder, fullPathFolder, "folder-name");
-    const savedFiles = await getFiles(markdownsPath + `/${folder}`);
+    let savedFiles = await getFiles(markdownsPath + `/${folder}`);
+    savedFiles = savedFiles.sort((a, b) => a.localeCompare(b));
     for (const file of savedFiles) {
       const fullPathFile = markdownsPath + `/${folder}/${file}`;
       newButton(file.replace(".md", ""), fullPathFile, "file-name", null, "child-file-name");
     }
   }
 
-  const savedFiles = getFiles(markdownsPath);
+  let savedFiles = getFiles(markdownsPath);
+  savedFiles = savedFiles.sort((a, b) => a.localeCompare(b));
   savedFiles.then((files) => {
     files.forEach((file) => {
       const fullPath = markdownsPath + `/${file}`;
