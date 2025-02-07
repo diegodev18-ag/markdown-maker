@@ -174,12 +174,12 @@ async function initFiles() {
   for (const folder of savedFolders) {
     const fullPathFolder = markdownsPath + `/${folder}`;
     newButton(folder, fullPathFolder, "folder-name");
-    let savedFiles = await getFiles(markdownsPath + `/${folder}`);
+/*     let savedFiles = await getFiles(markdownsPath + `/${folder}`);
     savedFiles = savedFiles.sort((a, b) => a.localeCompare(b));
     for (const file of savedFiles) {
       const fullPathFile = markdownsPath + `/${folder}/${file}`;
       newButton(file.replace(".md", ""), fullPathFile, "file-name", null, "child-file-name");
-    }
+    } */
   }
 
   let savedFiles = getFiles(markdownsPath);
