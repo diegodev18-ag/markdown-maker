@@ -446,9 +446,9 @@ function initConfirm(question) {
 
 async function pressFolder(event) {
   let savedFiles = await getFiles(event.id);
-  savedFiles = savedFiles.sort((a, b) => a.localeCompare(b));
+  savedFiles = savedFiles.sort((a, b) => b.localeCompare(a));
   for (const file of savedFiles) {
-    const fullPathFile = markdownsPath + `/${event.id}/${file}`;
+    const fullPathFile = `${event.id}/${file}`;
     newButton(file.replace(".md", ""), fullPathFile, "file-name", event.nextSibling, "child-file-name");
   }
 }
