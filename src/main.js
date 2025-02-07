@@ -444,6 +444,15 @@ function initConfirm(question) {
   });
 }
 
+async function pressFolder(event) {
+  let savedFiles = await getFiles(event.id);
+  savedFiles = savedFiles.sort((a, b) => a.localeCompare(b));
+  for (const file of savedFiles) {
+    const fullPathFile = markdownsPath + `/${event.id}/${file}`;
+    newButton(file.replace(".md", ""), fullPathFile, "file-name", event.nextSibling, "child-file-name");
+  }
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   initFiles();
   initCss();
@@ -511,7 +520,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (event.target.classList[0] === "file-name") {
       changeActive(event.target);
     } else if (event.target.classList[0] === "folder-name") {
-      console.log("Folder");
+      pressFolder(event.target);
     }
   });
 
