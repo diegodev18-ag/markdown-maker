@@ -213,12 +213,14 @@ function changeMode(newMode) {
     codeEditor.style.display = "grid";
     codeEditor.style.gridTemplateRows = "1fr 1fr";
     stylesCode.style.display = "block";
+    markdownCode.style.paddingBottom = "10px";
     mode = "code";
   } else if (newMode === "md") {
     mdButton.classList.add("active");
     codeButton.classList.remove("active");
     codeEditor.style.gridTemplateRows = "1fr 0";
     stylesCode.style.display = "none";
+    markdownCode.style.paddingBottom = "55px";
     mode = "md";
   }
 }
