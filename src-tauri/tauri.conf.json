@@ -23,13 +23,11 @@
     "active": true,
     "targets": "all",
     "icon": [
-      "icons/web-app-manifest-192x192.png",
-      "icons/web-app-manifest-512x512.png",
-      "icons/apple-touch-icon.png",
-      "icons/favicon-96x96.png",
-      "icons/favicon.ico",
-      "icons/favicon.svg",
-      "icons/site.webmanifest"
+      "src-tauri/icons/32x32.png",
+      "src-tauri/icons/128x128.png",
+      "src-tauri/icons/256x256.png",
+      "src-tauri/icons/icon.ico",
+      "src-tauri/icons/icon.icns"
     ]
   }
 }
