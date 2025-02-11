@@ -461,8 +461,10 @@ async function pressFolder(event, mode) {
     const fullPathFile = `${event.id}/${file}`;
     if (mode === "start") {
       newButton(file.replace(".md", ""), fullPathFile, "file-name", event.nextSibling, "child-file-name");
+      event.style.borderBottom = "2px solid #ccc";
     } else {
       event.nextSibling.remove();
+      event.style.borderBottom = "none";
     }
   }
 }
