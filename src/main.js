@@ -454,6 +454,26 @@ function initConfirm(question) {
   });
 }
 
+function initContextMenu(...options) {
+  return new Promise((resolve) => {
+    const contextMenu = document.createElement("div");
+    contextMenu.classList.add("context-menu");
+    options.forEach(opt => {
+      const option = document.createElement("button");
+      option.classList.add("context-option");
+      option.textContent = opt;
+      contextMenu.appendChild(option);
+      option.addEventListener("click", () => {
+        resolve(opt);
+        document.body.removeChild(contextMenu);
+      });
+    });
+    contextMenu.style.left = `${event.clientX}px`;
+    contextMenu.style.top = `${event.clientY}px`;
+    document.body.appendChild(contextMenu);
+  });
+}
+
 async function pressFolder(event, mode) {
   let savedFiles = await getFiles(event.id);
   savedFiles = savedFiles.sort((a, b) => b.localeCompare(a));
@@ -521,12 +541,13 @@ window.addEventListener("DOMContentLoaded", () => {
         event.target.remove();
       }
     } else { // Folder
-      const response = await initPrompt(`Enter the file name to create in \"${event.target.textContent}\" (the md extension is added after the file is created):`, "", "Enter to continue...");
-      if (response) {
-        const fullPath = markdownsPath + `/${event.target.textContent.replace(currentPlatform === 'windows' ? '\\' : '/', '')}`;
-        const reference = event.target.nextSibling;
-        newFile(fullPath, response, "---\n\n---\n\n", reference, "child-file-name");
-      }
+      // const response = await initPrompt(`Enter the file name to create in \"${event.target.textContent}\" (the md extension is added after the file is created):`, "", "Enter to continue...");
+      // if (response) {
+      //   const fullPath = markdownsPath + `/${event.target.textContent.replace(currentPlatform === 'windows' ? '\\' : '/', '')}`;
+      //   const reference = event.target.nextSibling;
+      //   newFile(fullPath, response, "---\n\n---\n\n", reference, "child-file-name");
+      // }
+      initContextMenu("New file", "Delete folder", "Cancel");
     }
   })
 
