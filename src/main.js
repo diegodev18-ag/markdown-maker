@@ -92,6 +92,8 @@ let sourcePath = `${fatherPath}/src`;
 let newStylesPath = `${sourcePath}/dinamicStyles.css`;
 let markdownsPath = `${fatherPath}/markdowns`;
 
+// Folders
+let pressedFolders = [];
 
 // Style
 const style = document.createElement("style");
@@ -296,8 +298,13 @@ function newButton(fileName, id, className = "file-name", reference, ...classes)
 function newFile(filePath, fileName, content, reference, ...classes) {
   if (fileName && filePath) {
     const fullPath = filePath + "/" + fileName + ".md";
-    newButton(fileName, fullPath, "file-name", reference, ...classes);
     saveFile(fullPath, content);
+
+    if (classes.includes("child-file-name") && pressedFolders.findIndex((folder) => folder.id === filePath)) {
+      return;
+    }
+    
+    newButton(fileName, fullPath, "file-name", reference, ...classes);
     // fileActive.name = fileName;
     // fileActive.path = fullPath;
   }
@@ -518,7 +525,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   })
 
-  const pressedFolders = [];
   filesContainer.addEventListener("click", async (event) => {
     // console.log(event.target.classList[0]);
     if (event.target.id === "files-and-folders") { return; }
