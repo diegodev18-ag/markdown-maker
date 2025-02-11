@@ -438,6 +438,9 @@ function initConfirm(question) {
     confirmButtonContainer.appendChild(confirmNoButton);
     document.body.appendChild(confirmContainer);
 
+    // Poner foco en el botón de "Yes"
+    confirmYesButton.focus();
+
     // Capturar la entrada del usuario
     confirmYesButton.addEventListener("click", function () {
       resolve(true);
