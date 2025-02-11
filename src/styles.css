@@ -118,6 +118,11 @@ body {
                 }
             }
 
+            & .folder-name {
+                transition: border-color 200ms ease-in-out;
+                border-bottom: 2px solid transparent;
+            }
+
             & .child-file-name {
                 padding-left: 30px;
             }

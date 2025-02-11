@@ -464,7 +464,7 @@ async function pressFolder(event, mode) {
       event.style.borderBottom = "2px solid #ccc";
     } else {
       event.nextSibling.remove();
-      event.style.borderBottom = "none";
+      event.style.borderBottom = "2px solid transparent";
     }
   }
 }
