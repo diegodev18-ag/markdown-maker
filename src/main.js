@@ -454,7 +454,7 @@ function initConfirm(question) {
   });
 }
 
-function initContextMenu(...options) {
+function initContextMenu(event, ...options) {
   return new Promise((resolve) => {
     const contextMenu = document.createElement("div");
     contextMenu.classList.add("context-menu");
@@ -464,7 +464,7 @@ function initContextMenu(...options) {
       option.textContent = opt;
       contextMenu.appendChild(option);
       option.addEventListener("click", () => {
-        resolve(opt);
+        resolve(opt.toLowerCase());
         document.body.removeChild(contextMenu);
       });
     });
@@ -537,17 +537,25 @@ window.addEventListener("DOMContentLoaded", () => {
       if (response) {
         const filePath = event.target.id;
         changeActive("none");
-        invoke("delete_file", { filePath: filePath });
+        invoke("delete_file", { dirPath: dir_path });
         event.target.remove();
       }
     } else { // Folder
-      // const response = await initPrompt(`Enter the file name to create in \"${event.target.textContent}\" (the md extension is added after the file is created):`, "", "Enter to continue...");
-      // if (response) {
-      //   const fullPath = markdownsPath + `/${event.target.textContent.replace(currentPlatform === 'windows' ? '\\' : '/', '')}`;
-      //   const reference = event.target.nextSibling;
-      //   newFile(fullPath, response, "---\n\n---\n\n", reference, "child-file-name");
-      // }
-      initContextMenu("New file", "Delete folder", "Cancel");
+      const contextResponse = await initContextMenu(event, "New file", "Delete folder", "Cancel");
+      if (contextResponse === "new file") {
+        const response = await initPrompt(`Enter the file name to create in \"${event.target.textContent}\" (the md extension is added after the file is created):`, "", "Enter to continue...");
+        if (response) {
+          const fullPath = markdownsPath + `/${event.target.textContent.replace(currentPlatform === 'windows' ? '\\' : '/', '')}`;
+          const reference = event.target.nextSibling;
+          newFile(fullPath, response, "---\n\n---\n\n", reference, "child-file-name");
+        }
+      } else if (contextResponse === "delete folder") {
+        const response = await initConfirm(`Do you want to delete the folder \"${event.target.textContent}\" and all its files?`);
+        if (response) {
+          invoke("delete_file", { dirPath: event.target.id });
+          event.target.remove();
+        }
+      }
     }
   })
 

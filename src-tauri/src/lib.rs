@@ -23,12 +23,18 @@ fn get_home_directory() -> Result<String, String> {
 }
 
 #[tauri::command]
-fn delete_file(file_path: &str) {
+fn delete_file(dir_path: &str) {
     use std::fs;
+    use std::path::Path;
+    let path = Path::new(&dir_path);
 
-    println!("Deleting file -> {}", file_path);
+    println!("Deleting file -> {}", dir_path);
     
-    fs::remove_file(file_path).expect("Unable to delete file");
+    if path.is_file() {
+        fs::remove_file(path).expect("Unable to delete file");
+    } else if path.is_dir() {
+        fs::remove_dir_all(path).expect("Unable to delete directory");
+    }
     // println!("File deleted successfully");
 }
 
