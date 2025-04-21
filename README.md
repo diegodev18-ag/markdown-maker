@@ -27,7 +27,7 @@ npm run dev
 
 4. Se iniciara la aplicacion automaticamente al construirse
 
-## Construccion
+## Construcción
 
 ```bash
 npm run build
