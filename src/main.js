@@ -516,15 +516,10 @@ async function pressFolder(event, mode) {
   }
 }
 
-function findFile(fileName) {
-  let found = false;
-  Array.from(filesContainer.children).forEach((file) => {
-    if (file.textContent === fileName) {
-      found = true;
-      return;
-    }
-  });
-  return found;
+async function findFile(folderPath, fileName) {
+  const fullPath = `${folderPath ? "" : markdownsPath}${folderPath ? `/${folderPath}` : ""}/${fileName}.md`;
+  const found = await getFileContent(fullPath);
+  return found !== "None";
 }
 
 window.addEventListener("DOMContentLoaded", () => {
@@ -561,7 +556,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const fileName = await initPrompt(
       "Enter the file name (the md extension is added after the file is created):",
     );
-    const found = findFile(fileName);
+    const found = await findFile(null, fileName);
     if (!found) {
       newFile(markdownsPath, fileName, "---\n\n---\n\n");
     } else {
@@ -600,6 +595,11 @@ window.addEventListener("DOMContentLoaded", () => {
           "Enter to continue...",
         );
         if (response) {
+          const found = await findFile(event.target.id, response);
+          if (found) {
+            console.log("File already exists", event.target.id, response);
+            return;
+          }
           const fullPath =
             markdownsPath +
             `/${event.target.textContent.replace(currentPlatform === "windows" ? "\\" : "/", "")}`;
