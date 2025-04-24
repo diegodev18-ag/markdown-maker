@@ -7,67 +7,67 @@ const cssTemplate = `\
     margin: 0;
     padding: 0;
   }
-  
+
   & h1 {
-    
+
   }
 
   & h2 {
-    
+
   }
 
   & h3 {
-    
+
   }
 
   & p {
-    
+
   }
 
   & ul {
-    
+
     & li {
-      
+
     }
   }
 
   & ol {
-    
+
     & li {
-      
+
     }
   }
 
   & a {
-    
+
   }
 
   & blockquote {
-    
+
     & p {
-      
+
     }
   }
 
   & code {
-    
+
   }
 
   & pre {
-    
+
     & code {
-      
+
     }
   }
 
   & details {
-    
+
     & summary {
-      
+
     }
   }
 }
-`
+`;
 
 let filesContainer = document.querySelector("#files-and-folders");
 let fileActive = { name: "", path: "" };
@@ -117,7 +117,8 @@ let lastExecuted = 0;
 let lastToExecuteStyles = 0;
 let lastExecutedStyles = 0;
 
-async function saveFile(path, content) { // file_name: &str, file_path: &str, file_content: &str
+async function saveFile(path, content) {
+  // file_name: &str, file_path: &str, file_content: &str
   try {
     await invoke("save_file", { filePath: path, fileContent: content });
   } catch (error) {
@@ -156,7 +157,10 @@ async function updateStyles() {
 async function downloadFile() {
   const downloadAlert = document.querySelector("#saved-alert");
   try {
-    await invoke("download_file", { path: fileActive.path, fileName: fileActive.name });
+    await invoke("download_file", {
+      path: fileActive.path,
+      fileName: fileActive.name,
+    });
 
     if (exButton) {
       downloadAlert.style.opacity = "1";
@@ -176,7 +180,7 @@ async function initFiles() {
   for (const folder of savedFolders) {
     const fullPathFolder = markdownsPath + `/${folder}`;
     newButton(folder, fullPathFolder, "folder-name");
-/*     let savedFiles = await getFiles(markdownsPath + `/${folder}`);
+    /*     let savedFiles = await getFiles(markdownsPath + `/${folder}`);
     savedFiles = savedFiles.sort((a, b) => a.localeCompare(b));
     for (const file of savedFiles) {
       const fullPathFile = markdownsPath + `/${folder}/${file}`;
@@ -199,7 +203,9 @@ async function initFiles() {
 }
 
 function changeMode(newMode) {
-  if (!fileActive.name || !fileActive.path) { return; }
+  if (!fileActive.name || !fileActive.path) {
+    return;
+  }
 
   const stylesCode = document.querySelector("#styles-code");
   const codeEditor = document.querySelector("#code-editor");
@@ -250,7 +256,7 @@ function search() {
 
 async function getFiles(dirPath) {
   try {
-    const files = await invoke('get_files', { dirPath: dirPath });
+    const files = await invoke("get_files", { dirPath: dirPath });
     return files;
   } catch (error) {
     console.error(error);
@@ -260,7 +266,7 @@ async function getFiles(dirPath) {
 
 async function getFolders(dirPath) {
   try {
-    const folders = await invoke('get_folders', { dirPath: dirPath });
+    const folders = await invoke("get_folders", { dirPath: dirPath });
     return folders;
   } catch (error) {
     console.error(error);
@@ -270,7 +276,7 @@ async function getFolders(dirPath) {
 
 async function getFileContent(filePath) {
   try {
-    const content = await invoke('get_file_content', { filePath: filePath });
+    const content = await invoke("get_file_content", { filePath: filePath });
     return content;
   } catch (error) {
     console.error(error);
@@ -278,7 +284,13 @@ async function getFileContent(filePath) {
   }
 }
 
-function newButton(fileName, id, className = "file-name", reference, ...classes) {
+function newButton(
+  fileName,
+  id,
+  className = "file-name",
+  reference,
+  ...classes
+) {
   const filesContainer = document.querySelector("#files-and-folders");
   const file = document.createElement("button");
   if (className === "folder-name") {
@@ -300,10 +312,13 @@ function newFile(filePath, fileName, content, reference, ...classes) {
     const fullPath = filePath + "/" + fileName + ".md";
     saveFile(fullPath, content);
 
-    if (classes.includes("child-file-name") && pressedFolders.findIndex((folder) => folder.id === filePath)) {
+    if (
+      classes.includes("child-file-name") &&
+      pressedFolders.findIndex((folder) => folder.id === filePath)
+    ) {
       return;
     }
-    
+
     newButton(fileName, fullPath, "file-name", reference, ...classes);
     // fileActive.name = fileName;
     // fileActive.path = fullPath;
@@ -322,13 +337,13 @@ async function changeActive(event) {
     return;
   }
 
-  if (event.classList[0] === "file-name") {  
+  if (event.classList[0] === "file-name") {
     const content = await getFileContent(event.id);
     fileActive.name = event.textContent;
     fileActive.path = event.id;
     markdownCode.value = content;
     updatePreview(content);
-  
+
     if (exButton) {
       exButton.classList.remove("active");
     } else {
@@ -353,7 +368,12 @@ async function initCss() {
   }
 }
 
-function initPrompt(question, placeholder = "", add = "Press enter to continue...", ...components) {
+function initPrompt(
+  question,
+  placeholder = "",
+  add = "Press enter to continue...",
+  ...components
+) {
   return new Promise((resolve) => {
     // Crear elementos
     const promptContainer = document.createElement("div");
@@ -370,7 +390,8 @@ function initPrompt(question, placeholder = "", add = "Press enter to continue..
     promptInput.classList.add("prompt-input");
 
     // Agregar contenido y estilos
-    promptQuit.innerHTML = '<svg  xmlns="http://www.w3.org/2000/svg"  width="20"  height="20"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="3"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>';
+    promptQuit.innerHTML =
+      '<svg  xmlns="http://www.w3.org/2000/svg"  width="20"  height="20"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="3"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-x"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M18 6l-12 12" /><path d="M6 6l12 12" /></svg>';
     promptQuestion.textContent = question;
     promptAdd.textContent = add;
     promptInput.placeholder = placeholder;
@@ -458,7 +479,7 @@ function initContextMenu(event, ...options) {
   return new Promise((resolve) => {
     const contextMenu = document.createElement("div");
     contextMenu.classList.add("context-menu");
-    options.forEach(opt => {
+    options.forEach((opt) => {
       const option = document.createElement("button");
       option.classList.add("context-option");
       option.textContent = opt;
@@ -480,7 +501,13 @@ async function pressFolder(event, mode) {
   for (const file of savedFiles) {
     const fullPathFile = `${event.id}/${file}`;
     if (mode === "start") {
-      newButton(file.replace(".md", ""), fullPathFile, "file-name", event.nextSibling, "child-file-name");
+      newButton(
+        file.replace(".md", ""),
+        fullPathFile,
+        "file-name",
+        event.nextSibling,
+        "child-file-name",
+      );
       event.style.borderBottom = "2px solid #ccc";
     } else {
       event.nextSibling.remove();
@@ -497,11 +524,17 @@ window.addEventListener("DOMContentLoaded", () => {
   // Options
   const newFileButton = document.querySelector("#new-file");
   const newFolderButton = document.querySelector("#new-folder");
-  
-  codeButton.addEventListener("click", () => { changeMode("code") });
-  mdButton.addEventListener("click", () => { changeMode("md") });
 
-  searchInput.addEventListener("input", () => { search() });
+  codeButton.addEventListener("click", () => {
+    changeMode("code");
+  });
+  mdButton.addEventListener("click", () => {
+    changeMode("md");
+  });
+
+  searchInput.addEventListener("input", () => {
+    search();
+  });
 
   newFolderButton.addEventListener("click", async () => {
     // const folderName = prompt("Enter the folder name:");
@@ -511,10 +544,12 @@ window.addEventListener("DOMContentLoaded", () => {
       createDir(fullPath);
       newButton(folderName, fullPath, "folder-name");
     }
-  })
+  });
 
-  newFileButton.addEventListener("click", async () => { 
-    const fileName = await initPrompt("Enter the file name (the md extension is added after the file is created):");
+  newFileButton.addEventListener("click", async () => {
+    const fileName = await initPrompt(
+      "Enter the file name (the md extension is added after the file is created):",
+    );
     let found = false;
     Array.from(filesContainer.children).forEach((file) => {
       if (file.textContent === fileName) {
@@ -522,17 +557,20 @@ window.addEventListener("DOMContentLoaded", () => {
         found = true;
         return;
       }
-    })
+    });
     if (!found) {
       newFile(markdownsPath, fileName, "---\n\n---\n\n");
     }
   });
 
   filesContainer.addEventListener("contextmenu", async (event) => {
-    if (event.target.id === "files-and-folders") { return; }
+    if (event.target.id === "files-and-folders") {
+      return;
+    }
 
     event.preventDefault();
-    if (event.target.classList[0] === "file-name") { // File
+    if (event.target.classList[0] === "file-name") {
+      // File
       const response = await initConfirm("Do you want to delete this file?");
       if (response) {
         const filePath = event.target.id;
@@ -540,28 +578,50 @@ window.addEventListener("DOMContentLoaded", () => {
         invoke("delete_file", { dirPath: dir_path });
         event.target.remove();
       }
-    } else { // Folder
-      const contextResponse = await initContextMenu(event, "New file", "Delete folder", "Cancel");
+    } else {
+      // Folder
+      const contextResponse = await initContextMenu(
+        event,
+        "New file",
+        "Delete folder",
+        "Cancel",
+      );
       if (contextResponse === "new file") {
-        const response = await initPrompt(`Enter the file name to create in \"${event.target.textContent}\" (the md extension is added after the file is created):`, "", "Enter to continue...");
+        const response = await initPrompt(
+          `Enter the file name to create in \"${event.target.textContent}\" (the md extension is added after the file is created):`,
+          "",
+          "Enter to continue...",
+        );
         if (response) {
-          const fullPath = markdownsPath + `/${event.target.textContent.replace(currentPlatform === 'windows' ? '\\' : '/', '')}`;
+          const fullPath =
+            markdownsPath +
+            `/${event.target.textContent.replace(currentPlatform === "windows" ? "\\" : "/", "")}`;
           const reference = event.target.nextSibling;
-          newFile(fullPath, response, "---\n\n---\n\n", reference, "child-file-name");
+          newFile(
+            fullPath,
+            response,
+            "---\n\n---\n\n",
+            reference,
+            "child-file-name",
+          );
         }
       } else if (contextResponse === "delete folder") {
-        const response = await initConfirm(`Do you want to delete the folder \"${event.target.textContent}\" and all its files?`);
+        const response = await initConfirm(
+          `Do you want to delete the folder \"${event.target.textContent}\" and all its files?`,
+        );
         if (response) {
           invoke("delete_file", { dirPath: event.target.id });
           event.target.remove();
         }
       }
     }
-  })
+  });
 
   filesContainer.addEventListener("click", async (event) => {
     // console.log(event.target.classList[0]);
-    if (event.target.id === "files-and-folders") { return; }
+    if (event.target.id === "files-and-folders") {
+      return;
+    }
 
     if (event.target.classList[0] === "file-name") {
       changeActive(event.target);
@@ -586,7 +646,10 @@ window.addEventListener("DOMContentLoaded", () => {
       const space = 2;
       const start = cssCode.selectionStart; // Obtener el contenido actual del textarea
       const end = cssCode.selectionEnd;
-      cssCode.value = cssCode.value.substring(0, start) + ' '.repeat(space) + cssCode.value.substring(end); // Insertar 4 espacios en la posición del cursor
+      cssCode.value =
+        cssCode.value.substring(0, start) +
+        " ".repeat(space) +
+        cssCode.value.substring(end); // Insertar 4 espacios en la posición del cursor
       cssCode.selectionStart = cssCode.selectionEnd = start + space; // Mover el cursor después de los 4 espacios insertados
     }
     lastToExecuteStyles += 1;
