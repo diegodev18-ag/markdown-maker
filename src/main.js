@@ -318,7 +318,7 @@ function newFile(filePath, fileName, content, reference, ...classes) {
     ) {
       return;
     }
-
+    console.log({ filePath });
     newButton(fileName, fullPath, "file-name", reference, ...classes);
     // fileActive.name = fileName;
     // fileActive.path = fullPath;
@@ -516,6 +516,17 @@ async function pressFolder(event, mode) {
   }
 }
 
+function findFile(fileName) {
+  let found = false;
+  Array.from(filesContainer.children).forEach((file) => {
+    if (file.textContent === fileName) {
+      found = true;
+      return;
+    }
+  });
+  return found;
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   initFiles();
   initCss();
@@ -550,16 +561,12 @@ window.addEventListener("DOMContentLoaded", () => {
     const fileName = await initPrompt(
       "Enter the file name (the md extension is added after the file is created):",
     );
-    let found = false;
-    Array.from(filesContainer.children).forEach((file) => {
-      if (file.textContent === fileName) {
-        alert("This file already exists");
-        found = true;
-        return;
-      }
-    });
+    const found = findFile(fileName);
     if (!found) {
       newFile(markdownsPath, fileName, "---\n\n---\n\n");
+    } else {
+      alert("This file already exists");
+      console.log("File already exists");
     }
   });
 
