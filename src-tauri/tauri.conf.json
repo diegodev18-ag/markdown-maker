@@ -1,18 +1,20 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "MarkdownMaker",
+  "productName": "markdown-maker",
   "version": "0.1.0",
   "identifier": "com.markdown-maker.app",
   "build": {
-    "frontendDist": "../src"
+    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
   },
   "app": {
-    "withGlobalTauri": true,
     "windows": [
       {
-        "title": "MarkdownMaker",
-        "width": 1300,
-        "height": 750
+        "title": "markdown-maker",
+        "width": 800,
+        "height": 600
       }
     ],
     "security": {
@@ -23,11 +25,11 @@
     "active": true,
     "targets": "all",
     "icon": [
-      "icons/icon.png",
-      "icons/icon.ico",
-      "icons/icon.icns",
       "icons/32x32.png",
-      "icons/128x128.png"
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
     ]
   }
 }
