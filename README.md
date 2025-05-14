@@ -7,6 +7,7 @@
 - Node.js
 - Git
 - Rust
+- pnpm
 
 ## Instalación
 
@@ -17,12 +18,12 @@ git clone https://github.com/diego-dev018/markdown-maker
 
 2. Instala las dependencias
 ```bash
-npm install
+pnpm install
 ```
 
 3. Inicia el servidor
 ```bash
-npm run dev
+pnpm run tauri dev
 ```
 
 4. Se iniciara la aplicacion automaticamente al construirse
@@ -30,15 +31,16 @@ npm run dev
 ## Construcción
 
 ```bash
-npm run build
+pnpm run tauri build
 ```
 
 ## Tecnologías
 
 - Rust
-- Html
-- Css
-- JavaScript
+- ReactJs
+  - HTML
+  - TailwindCss
+  - TypeScript
 
 ### MarkDown
 
